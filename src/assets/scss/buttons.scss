@@ -1,0 +1,44 @@
+.btn {
+  display: inline-block;
+  border-radius: 0;
+  border: 2px solid $inv-color;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  color: $white;
+  padding: 12px 24px;
+  background-color: $inv-color;
+  box-shadow: none;
+  text-transform: uppercase;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 600;
+  transition: 150ms ease-in;
+  &:hover {
+    color: $inv-color;
+    background-color: $white;
+    text-decoration: none;
+    box-shadow: 0 2px 12px $added-color-light;
+  }
+  &:disabled {
+    cursor: default;
+    background-color: $added-color;
+    border-color: $added-color;
+    pointer-events: none;
+  }
+  &-sm {
+    font-size: 16px;
+    padding: 10px 24px;
+  }
+}
+
+.btn-icon {
+  display: inline-block;
+  border-radius: 0;
+  border: none;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  box-shadow: none;
+  background-color: transparent;
+}
