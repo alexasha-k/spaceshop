@@ -12,7 +12,7 @@
     <tbody>
       <tr v-for="(item, index) in $store.state.cartItems">
         <td>{{ index + 1 }}</td>
-        <td>{{ item.title }}</td>
+        <td>{{ item.name }}</td>
         <td>{{ item.price }}</td>
         <td>{{ item.quantity }}</td>
         <td>

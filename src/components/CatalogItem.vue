@@ -9,40 +9,33 @@
         <img :src="item.images[0].src" :alt="item.images[0].alt" />
       </div>
       <div class="tour-item__info">
-        <router-link class="tour-item__title" :to="apiPoint + '/' + item.id">{{
-          item.name
-        }}</router-link>
-        <div class="tour-item__desc">{{ item.description }}</div>
+        <router-link
+          class="tour-item__title"
+          :to="'/' + apiPoint + '/' + item.id"
+          >{{ item.name }}</router-link
+        >
+        <div class="tour-item__desc" v-html="item.description"></div>
       </div>
       <div class="tour-item__price">{{ item.price }} <span>AUD</span></div>
       <div class="tour-item__buy">
         <router-link
           v-if="!isShopItem"
-          :to="apiPoint + '/' + item.id"
+          :to="'/' + apiPoint + '/' + item.id"
           class="btn btn-sm"
         >
           Choose dates
         </router-link>
-        <button
-          v-if="isShopItem"
-          class="btn btn-sm"
-          :disabled="isInCartItem"
-          type="button"
-          name="button"
-          @click="handleButtonClick(item)"
-        >
-          {{ buyButtonText }}
-        </button>
+        <add-to-cart-btn v-if="isShopItem" :item="item"></add-to-cart-btn>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import AddToCartBtn from "./common/AddToCartBtn";
 export default {
   name: "CatalogItem",
-  data: vw => ({}),
+  data: vm => ({}),
   props: {
     item: {},
     isShopItem: {
@@ -52,24 +45,7 @@ export default {
     },
     apiPoint: String
   },
-  computed: {
-    isInCartItem: {
-      get() {
-        return Boolean(
-          this.getCartItems().find(item => item.id === this.item.id)
-        );
-      }
-    },
-    buyButtonText: props => (!props.isInCartItem ? "Add to cart" : "In cart")
-  },
-  methods: {
-    ...mapActions(["addItemToCart"]),
-    ...mapGetters(["getCartItems"]),
-    handleButtonClick: function(item) {
-      this.addItemToCart(item);
-    }
-  },
-  created: function() {}
+  components: { AddToCartBtn }
 };
 </script>
 
@@ -77,6 +53,7 @@ export default {
 @import "@/assets/scss/_variables.scss";
 .tour-item {
   position: relative;
+  margin-bottom: 20px;
   &__card {
   }
   &__actions {

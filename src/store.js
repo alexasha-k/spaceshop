@@ -24,7 +24,7 @@ const mutations = {
   deleteItemFromCart(state, item) {
     const items = _.remove(
       state.cartItems,
-      cartItem => cartItem._id !== item._id
+      cartItem => cartItem.id !== item.id
     );
     state.cartItems = items;
   },
@@ -33,13 +33,13 @@ const mutations = {
   },
   incrementItemQuantity(state, item) {
     const itemIndex = state.cartItems.findIndex(
-      cartItem => cartItem._id === item._id
+      cartItem => cartItem.id === item.id
     );
     state.cartItems[itemIndex].quantity++;
   },
   decrementItemQuantity(state, item) {
     const itemIndex = state.cartItems.findIndex(
-      cartItem => cartItem._id === item._id
+      cartItem => cartItem.id === item.id
     );
     state.cartItems[itemIndex].quantity--;
   }
