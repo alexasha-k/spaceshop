@@ -52,11 +52,11 @@ export default {
           },
           {
             title: "Delivery",
-            path: "/shop/delivery"
+            path: "/delivery"
           },
           {
             title: "Terms and conditions",
-            path: "/conditions"
+            path: "/terms"
           }
         ]
       }

@@ -27,16 +27,25 @@ const router = new Router({
     {
       path: "/tours",
       name: "tours",
-      component: () => import("./views/tours/Index.vue")
+      component: () => import("./views/tours/Index.vue"),
+      children: [
+        {
+          path: "",
+          component: () => import("./views/tours/ToursCatalog.vue")
+        },
+        {
+          path: ":id",
+          component: () => import("./views/tours/TourDetailed.vue")
+        }
+      ]
     },
     {
       path: "/shop",
       name: "shop",
       component: () => import("./views/shop/Index.vue"),
-      redirect: "/shop/index",
       children: [
         {
-          path: "index",
+          path: "",
           component: () => import("./views/shop/ShopCatalog.vue")
         },
         {
@@ -51,7 +60,7 @@ const router = new Router({
       component: () => import("./views/cart/Index.vue"),
       children: [
         {
-          path: "/",
+          path: "",
           component: () => import("./views/cart/Cart.vue")
         },
         {
@@ -67,7 +76,21 @@ const router = new Router({
     {
       path: "/contacts",
       name: "contacts",
-      component: () => import("./views/Contacts.vue")
+      component: () => import("./views/contacts/Index.vue"),
+      children: [
+        {
+          path: "",
+          component: () => import("./views/contacts/Contacts.vue")
+        },
+        {
+          path: "shops",
+          component: () => import("./views/contacts/ContactsShops.vue")
+        },
+        {
+          path: "travel",
+          component: () => import("./views/contacts/ContactsTravel.vue")
+        }
+      ]
     },
     {
       path: "/login",

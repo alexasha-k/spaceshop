@@ -1,39 +1,36 @@
 <template>
-  <div class="container">
-    <h1>Flights</h1>
-    <div class="row">
-      <div class="col-3">
-        <div class="aside">
-          <catalog-menu
-            v-on:change-menu-item="onChangeMenuItem"
-            :currentItem="currentItem"
-          ></catalog-menu>
-          <catalog-filters></catalog-filters>
-        </div>
+  <div class="row">
+    <div class="col-3">
+      <div class="aside">
+        <catalog-menu
+          v-on:change-menu-item="onChangeMenuItem"
+          :currentItem="currentItem"
+        ></catalog-menu>
+        <catalog-filters></catalog-filters>
       </div>
-      <div class="col">
-        <div class="content">
-          <div class="content__top">
-            <catalog-search
-              :value="searchText"
-              v-on:input="onSearchMenuItem"
-            ></catalog-search>
-            <catalog-sorting
-              :value="sortingValue"
-              v-on:sorting-items="onSortMenuItem"
-            ></catalog-sorting>
-            <catalog-view
-              :currentView="catalogView"
-              :views="catalogViews"
-              v-on:view-items="onViewMenuItems"
-            ></catalog-view>
-          </div>
-          <catalog-content
-            :data="items"
-            :apiPoint="apiPoint"
-            :view="catalogView"
-          ></catalog-content>
+    </div>
+    <div class="col">
+      <div class="content">
+        <div class="content__top">
+          <catalog-search
+            :value="searchText"
+            v-on:input="onSearchMenuItem"
+          ></catalog-search>
+          <catalog-sorting
+            :value="sortingValue"
+            v-on:sorting-items="onSortMenuItem"
+          ></catalog-sorting>
+          <catalog-view
+            :currentView="catalogView"
+            :views="catalogViews"
+            v-on:view-items="onViewMenuItems"
+          ></catalog-view>
         </div>
+        <catalog-content
+          :data="items"
+          :apiPoint="apiPoint"
+          :view="catalogView"
+        ></catalog-content>
       </div>
     </div>
   </div>
@@ -49,7 +46,7 @@ import CatalogContent from "../../components/catalog-common/CatalogContent";
 import CatalogView from "../../components/catalog-common/CatalogView";
 
 export default {
-  name: "FlightsCatalog",
+  name: "ToursCatalog",
   data: vm => ({
     items: null,
     currentItem: null,
@@ -89,6 +86,7 @@ export default {
       axios.get(url).then(response => (this.items = response.data));
     },
     onViewMenuItems: function(val) {
+      console.log(val);
       this.catalogView = val;
     },
     getCatalogData: function() {

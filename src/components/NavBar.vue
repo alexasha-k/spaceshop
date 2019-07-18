@@ -5,7 +5,7 @@
         v-for="link in links"
         :to="link.path"
         v-bind:key="link.title"
-        exact
+        :exact="link.path === '/'"
         >{{ link.title }}</router-link
       >
     </nav>

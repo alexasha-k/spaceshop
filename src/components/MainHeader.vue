@@ -2,22 +2,22 @@
   <header>
     <div class="header-top">
       <div class="container">
-        <HeaderTop />
+        <header-top></header-top>
       </div>
     </div>
     <div class="header-bottom">
       <div class="container">
         <div class="row">
           <div class="col">
-            <NavBar />
+            <nav-bar></nav-bar>
           </div>
           <div class="col-2 right-col">
-            <div class="row">
-              <div class="col">
-                <CartIcon />
+            <div class="row justify-content-end">
+              <div class="col-auto">
+                <cart-icon></cart-icon>
               </div>
-              <div class="col">
-                <LoginIcon />
+              <div class="col-auto">
+                <login-icon></login-icon>
               </div>
             </div>
           </div>

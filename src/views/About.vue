@@ -1,5 +1,5 @@
 <template>
   <div class="container">
-    <h1>This is an about page</h1>
+    <base-render-page pageId="2005"></base-render-page>
   </div>
 </template>
