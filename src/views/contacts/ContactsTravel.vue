@@ -5,101 +5,15 @@
 </template>
 
 <script>
+import axios from "axios";
 import ContactsList from "../../components/contacts/ContactsList";
 
 export default {
   name: "ContactsTravel",
   data: () => ({
-    travel: [
-      {
-        planet: "Earth",
-        addressId: 1,
-        address: "Brisbane, Australia",
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 2,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 2,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 2,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 2,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 2,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 3,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 3,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 3,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 3,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      },
-      {
-        planet: "Earth",
-        address: "Brisbane, Australia",
-        addressId: 3,
-        name: "SpaceShop #1",
-        workingHours: "10am-8pm",
-        goodsTypes: ["Tours", "Tickets", "Souvenirs"]
-      }
-    ],
+    travel: null,
+    apiEndPoint:
+      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/posts?categories=35&order=asc",
     planetList: [
       {
         locationGroup: 1,
@@ -143,6 +57,16 @@ export default {
       }
     ]
   }),
+  methods: {
+    getData: function() {
+      axios
+        .get(this.apiEndPoint)
+        .then(response => (this.travel = response.data));
+    }
+  },
+  mounted: function() {
+    this.getData();
+  },
   components: { ContactsList }
 };
 </script>

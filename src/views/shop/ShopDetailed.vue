@@ -22,7 +22,7 @@ export default {
         .then(response => (this.item = response.data))
         .catch(error => {
           if (error.request && error.request.status === 404) {
-            return this.$router.push("/not-found");
+            return this.$router.replace("/not-found");
           }
         });
     }

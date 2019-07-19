@@ -1,11 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import _ from "lodash";
+import axios from "axios";
 
 Vue.use(Vuex);
 
 const state = {
   isAuth: false,
+  userInfo: "",
   cartItems: []
 };
 
@@ -15,6 +17,29 @@ const mutations = {
       this.replaceState(
         Object.assign(state, JSON.parse(localStorage.getItem("store")))
       );
+    }
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      };
+      axios
+        .post(
+          "http://spaceshop.alexashaweb.com/wordpress/wp-json/jwt-auth/v1/token/validate",
+          {},
+          config
+        )
+        .then(response => {
+          if (response.status === 200) {
+            state.isAuth = true;
+          }
+        })
+        .catch(ex => {
+          console.error(ex);
+          localStorage.removeItem("token");
+        });
     }
   },
   addItemToCart(state, item) {
@@ -42,6 +67,33 @@ const mutations = {
       cartItem => cartItem.id === item.id
     );
     state.cartItems[itemIndex].quantity--;
+  },
+  toggleIsAuth(state) {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      const config = {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      };
+      axios
+        .post(
+          "http://spaceshop.alexashaweb.com/wordpress/wp-json/jwt-auth/v1/token/validate",
+          {},
+          config
+        )
+        .then(response => {
+          if (response.status === 200) {
+            state.isAuth = true;
+          }
+        })
+        .catch(() => {
+          state.isAuth = false;
+          localStorage.removeItem("token");
+        });
+    } else {
+      state.isAuth = false;
+    }
   }
 };
 
@@ -51,7 +103,9 @@ const actions = {
   clearCart: ({ commit }) => commit("clearCart"),
   incrementItemQuantity: ({ commit }, id) =>
     commit("incrementItemQuantity", id),
-  decrementItemQuantity: ({ commit }, id) => commit("decrementItemQuantity", id)
+  decrementItemQuantity: ({ commit }, id) =>
+    commit("decrementItemQuantity", id),
+  toggleIsAuth: ({ commit }) => commit("toggleIsAuth")
 };
 
 const getters = {

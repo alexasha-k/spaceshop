@@ -1,13 +1,15 @@
 <template>
   <div class="row justify-content-between">
     <div class="logo col-auto">
-      <img
-        alt="SpaceShop logo"
-        width="60"
-        height="60"
-        src="../assets/logo.svg"
-      />
-      <span>SpaceShop</span>
+      <router-link to="/" tag="div">
+        <img
+          alt="SpaceShop logo"
+          width="60"
+          height="60"
+          src="../assets/logo.svg"
+        />
+        <span>SpaceShop</span>
+      </router-link>
     </div>
     <div class="header-contacts col-auto">
       <a href="tel:+79262554218">8 926 255 4218</a><br />
@@ -31,6 +33,7 @@ export default {
   line-height: 1;
   display: inline-block;
   vertical-align: middle;
+  cursor: pointer;
 }
 .header-contacts {
   text-align: right;

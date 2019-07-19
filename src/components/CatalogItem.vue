@@ -3,7 +3,7 @@
     <div class="tour-item__card">
       <div class="tour-item__actions">
         <div class="favorite"></div>
-        <div class="raiting">{{ item.average_rating }}</div>
+        <!-- <div class="raiting">{{ item.average_rating }}</div> -->
       </div>
       <div class="tour-item__image">
         <img :src="item.images[0].src" :alt="item.images[0].alt" />
@@ -16,7 +16,10 @@
         >
         <div class="tour-item__desc" v-html="item.description"></div>
       </div>
-      <div class="tour-item__price">{{ item.price }} <span>AUD</span></div>
+      <div v-if="item.price" class="tour-item__price">
+        {{ item.price }} <span class="price">AUD</span>
+      </div>
+      <div v-else class="tour-item__price">Price by request</div>
       <div class="tour-item__buy">
         <router-link
           v-if="!isShopItem"
@@ -98,6 +101,10 @@ export default {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 24px;
+    .price {
+      font-size: 80%;
+      color: $black50;
+    }
   }
   /deep/ .btn {
     display: block;

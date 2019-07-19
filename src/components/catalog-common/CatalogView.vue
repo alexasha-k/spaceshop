@@ -19,7 +19,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
-a.active {
-  color: red;
+@import "@/assets/scss/_variables.scss";
+.catalog-view {
+  display: flex;
+  justify-content: flex-end;
+
+  &__item {
+    a {
+      display: block;
+      font-size: 16px;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 8px 6px;
+      color: $added-color;
+      cursor: pointer;
+      transition: 0.15s ease;
+      &:hover,
+      &.active {
+        background-color: $black5;
+        color: $added-color;
+      }
+    }
+  }
 }
 </style>

@@ -1,17 +1,23 @@
 <template>
   <div>
-    <MainHero />
-    <div class="container">
-      <MainItemList title="Hot Tours" apiPoint="tours" />
-      <MainItemList title="Best Souvenirs" apiPoint="shop" />
-      <MainItemList title="Hot Flights" apiPoint="flights" />
-      <base-seo-text class="mb-5">
-        <p>
-          Our shop Our shop Our shop Our shop Our shop Our shop Our shop Our
-          shop Our shop Our shop Our shop Our shop Our shop Our shop Our shop
-          Our shop Our shop Our shop
-        </p>
-      </base-seo-text>
+    <main-hero></main-hero>
+    <main-item-list title="Hot Tours" apiPoint="tours"></main-item-list>
+    <main-item-list
+      title="Best Souvenirs"
+      apiPoint="shop"
+      class="bg-gray"
+    ></main-item-list>
+    <main-item-list title="Hot Flights" apiPoint="flights"></main-item-list>
+    <div class="bg-gray">
+      <div class="container mt-5">
+        <base-seo-text class="mb-5">
+          <p>
+            Our shop Our shop Our shop Our shop Our shop Our shop Our shop Our
+            shop Our shop Our shop Our shop Our shop Our shop Our shop Our shop
+            Our shop Our shop Our shop
+          </p>
+        </base-seo-text>
+      </div>
     </div>
   </div>
 </template>

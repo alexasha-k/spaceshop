@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
+import store from "./store";
 
 Vue.use(Router);
 
@@ -120,8 +121,9 @@ const router = new Router({
     }
   ]
 });
+
 const auth = {
-  loggedIn: () => false
+  loggedIn: () => store.state.isAuth
 };
 
 router.beforeEach((to, from, next) => {
@@ -129,7 +131,7 @@ router.beforeEach((to, from, next) => {
     if (!auth.loggedIn()) {
       next({
         path: "/login",
-        query: { redirect: to.fullPath }
+        query: { redirect: "/account" }
       });
     } else {
       next();

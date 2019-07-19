@@ -1,14 +1,18 @@
 <template>
   <div v-if="tourList" class="main-tours">
-    <h2>{{ title }}</h2>
-    <div class="row">
-      <catalog-item
-        class="col"
-        v-for="item in tourList"
-        :isShopItem="apiPoint === 'shop'"
-        :item="item"
-        :apiPoint="apiPoint"
-      ></catalog-item>
+    <div class="container">
+      <h2>
+        <span class="decoration-line">{{ title }}</span>
+      </h2>
+      <div class="row">
+        <catalog-item
+          class="col"
+          v-for="item in tourList"
+          :isShopItem="apiPoint === 'shop'"
+          :item="item"
+          :apiPoint="apiPoint"
+        ></catalog-item>
+      </div>
     </div>
   </div>
 </template>

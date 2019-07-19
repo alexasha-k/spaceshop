@@ -7,7 +7,7 @@
       ></svg-contacts-filter>
     </div>
     <div class="row mt-5">
-      <div v-if="!computedItems.length">
+      <div v-if="computedItems && !computedItems.length">
         There is no our shops on this planet for now...
       </div>
       <div v-for="(item, index) in computedItems" :key="index" class="col-6">

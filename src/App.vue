@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <main-header />
+    <main-header></main-header>
     <main id="main">
-      <router-view />
+      <transition name="fade-in">
+        <router-view></router-view>
+      </transition>
     </main>
-    <main-footer />
+    <main-footer></main-footer>
   </div>
 </template>
 
@@ -24,8 +26,17 @@ export default {
 @import "assets/scss/style";
 #main {
   min-height: calc(100vh - 430px);
+  position: relative;
 }
 #main h1 {
   margin-top: 42px;
+}
+
+.fade-in-enter-active {
+  transition: opacity 0.5s;
+}
+
+.fade-in-enter {
+  opacity: 0;
 }
 </style>

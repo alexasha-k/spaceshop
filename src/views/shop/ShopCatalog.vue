@@ -11,20 +11,26 @@
     </div>
     <div class="col">
       <div class="content">
-        <div class="content__top">
+        <div class="content__top mb-4">
           <catalog-search
             :value="searchText"
             v-on:input="onSearchMenuItem"
           ></catalog-search>
-          <catalog-sorting
-            :value="sortingValue"
-            v-on:sorting-items="onSortMenuItem"
-          ></catalog-sorting>
-          <catalog-view
-            :currentView="catalogView"
-            :views="catalogViews"
-            v-on:view-items="onViewMenuItems"
-          ></catalog-view>
+          <div class="row justify-content-between align-items-end">
+            <div class="col-auto">
+              <catalog-sorting
+                :value="sortingValue"
+                v-on:sorting-items="onSortMenuItem"
+              ></catalog-sorting>
+            </div>
+            <div class="col-auto">
+              <catalog-view
+                :currentView="catalogView"
+                :views="catalogViews"
+                v-on:view-items="onViewMenuItems"
+              ></catalog-view>
+            </div>
+          </div>
         </div>
         <catalog-content
           :data="items"
@@ -59,12 +65,12 @@ export default {
       isDescOrder: true
     },
     apiEndPoint:
-      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products"
+      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products?per_page=12"
   }),
   methods: {
     onChangeMenuItem: function(val) {
       this.currentItem = val;
-      const url = this.apiEndPoint + "?category=" + val;
+      const url = this.apiEndPoint + "&category=" + val;
       axios.get(url).then(response => (this.items = response.data));
     },
     onSortMenuItem: function(val) {
@@ -75,18 +81,17 @@ export default {
       this.sortingValue.name = val;
       const order = checkOrder ? "desc" : "asc";
       const orderBy = val;
-      const url = this.apiEndPoint + "?order=" + order + "&orderby=" + orderBy;
+      const url = this.apiEndPoint + "&order=" + order + "&orderby=" + orderBy;
       axios.get(url).then(response => (this.items = response.data));
     },
     onSearchMenuItem: function(val) {
       let str = val.trim();
       if (str === this.searchText || (str.length && str.length < 3)) return;
       this.searchText = str;
-      const url = this.apiEndPoint + "?search=" + val;
+      const url = this.apiEndPoint + "&search=" + val;
       axios.get(url).then(response => (this.items = response.data));
     },
     onViewMenuItems: function(val) {
-      console.log(val);
       this.catalogView = val;
     },
     getCatalogData: function() {

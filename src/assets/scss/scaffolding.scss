@@ -7,4 +7,20 @@ body {
 
 h2 {
   font-size: 36px;
+  margin-bottom: 36px;
+}
+
+.decoration-line {
+  border-bottom: 3px solid $added-color;
+  padding-right: 12px;
+}
+
+.bg-gray {
+  background-color: $black5;
+  padding: 1px 0;
+}
+
+.content p,
+.content li {
+  font-size: 20px;
 }
