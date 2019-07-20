@@ -1,6 +1,10 @@
 <template>
   <div class="cart-button">
-    <router-link to="/cart" :class="{ empty: !$store.getters.cartItemsCount }">
+    <router-link
+      to="/cart"
+      :class="{ empty: !$store.getters.cartItemsCount }"
+      class="btn-icon"
+    >
       <font-awesome-icon icon="shopping-cart" class="fa-2x"></font-awesome-icon>
       <span v-if="$store.getters.cartItemsCount" class="cart-button__count">{{
         $store.getters.cartItemsQuantity

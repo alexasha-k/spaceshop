@@ -20,6 +20,13 @@
     text-decoration: none;
     box-shadow: 2px 2px 4px $black30;
   }
+  &:active {
+    box-shadow: none;
+    opacity: 0.6;
+  }
+  &:focus {
+    box-shadow: 2px 2px 4px $black30;
+  }
   &:disabled {
     cursor: default;
     background-color: $added-color;
@@ -41,4 +48,14 @@
   text-decoration: none;
   box-shadow: none;
   background-color: transparent;
+  transition: 150ms ease;
+  &:hover {
+    color: $inv-color;
+    text-decoration: none;
+    opacity: 0.85;
+  }
+  &:active {
+    box-shadow: none;
+    opacity: 0.6;
+  }
 }

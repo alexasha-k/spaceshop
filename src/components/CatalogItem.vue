@@ -101,10 +101,6 @@ export default {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 24px;
-    .price {
-      font-size: 80%;
-      color: $black50;
-    }
   }
   /deep/ .btn {
     display: block;

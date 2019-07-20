@@ -1,6 +1,6 @@
 <template>
   <div class="account-button">
-    <router-link v-if="$store.state.isAuth" to="/account">
+    <router-link class="btn-icon" v-if="$store.state.isAuth" to="/account">
       <font-awesome-icon
         icon="user-astronaut"
         class="fa-2x"

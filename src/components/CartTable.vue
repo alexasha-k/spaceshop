@@ -53,8 +53,9 @@
       </td>
       <td>{{ $store.getters.cartItemsQuantity }}</td>
       <td></td>
-
-      <td>{{ $store.getters.cartItemsPrice }} AUD</td>
+      <td>
+        {{ $store.getters.cartItemsPrice }} <span class="price">AUD</span>
+      </td>
       <td></td>
     </tfoot>
   </table>
@@ -90,6 +91,7 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_variables.scss";
 .cart-table {
+  width: 100%;
   border-collapse: collapse;
   td,
   th {
