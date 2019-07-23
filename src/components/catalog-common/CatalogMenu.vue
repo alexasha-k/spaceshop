@@ -4,6 +4,7 @@
       <a
         v-bind:class="{ active: !currentItem }"
         v-on:click="$emit('change-menu-item', null)"
+        tabindex="0"
         >All items</a
       >
     </div>
@@ -11,6 +12,7 @@
       <a
         v-bind:class="{ active: currentItem === item.id }"
         v-on:click="$emit('change-menu-item', item.id)"
+        tabindex="0"
         >{{ item.name }}</a
       >
     </div>
@@ -25,15 +27,27 @@ export default {
   data: vm => ({
     menuList: null,
     apiEndPoint:
-      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products/categories?parent=17"
+      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products/categories"
   }),
-  props: {
-    currentItem: Number
+  props: ["currentItem", "apiPoint"],
+  computed: {
+    parentCategory: function() {
+      switch (this.apiPoint) {
+        case "shop":
+          return 17;
+        case "tours":
+          return 20;
+        case "flights":
+          return 21;
+        default:
+          return 17;
+      }
+    }
   },
   methods: {
     getCatalogData: function() {
       axios
-        .get(this.apiEndPoint)
+        .get(this.apiEndPoint + "?parent=" + this.parentCategory)
         .then(response => (this.menuList = response.data));
     }
   },

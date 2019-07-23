@@ -27,12 +27,27 @@ export default {
     tourList: null
   }),
   props: ["apiPoint", "title"],
+  computed: {
+    categoryId: function() {
+      switch (this.apiPoint) {
+        case "tours":
+          return 20;
+        case "shop":
+          return 17;
+        case "flights":
+          return 21;
+        default:
+          return 17;
+      }
+    }
+  },
   methods: {
     getCatalogData: function() {
       // const url = this.apiPoint;
       axios
         .get(
-          "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products?per_page=4"
+          "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products?per_page=4&category=" +
+            this.categoryId
         )
         .then(response => (this.tourList = response.data));
     }

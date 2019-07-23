@@ -2,7 +2,7 @@
   <div class="catalog-view">
     <div v-for="item in views" class="catalog-view__item">
       <a
-        href="#"
+        tabindex="0"
         :class="{ active: item === currentView }"
         v-on:click="$emit('view-items', item)"
         >{{ item }}</a
