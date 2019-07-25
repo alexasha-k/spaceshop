@@ -21,13 +21,13 @@
 
 <script>
 import axios from "axios";
+import config from "@/config.json";
 
 export default {
   name: "CatalogMenu",
   data: vm => ({
     menuList: null,
-    apiEndPoint:
-      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products/categories"
+    apiEndPoint: config.configApiEndpoint + "/wc/v1/products/categories"
   }),
   props: ["currentItem", "apiPoint"],
   computed: {

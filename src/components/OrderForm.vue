@@ -1,7 +1,20 @@
 <template>
   <div class="order-form">
+    <div v-if="errors && errors.orderError" class="form-errors">
+      {{ errors.orderError }}
+    </div>
+    <div class="form-errors" v-if="errors">
+      <div v-if="errors.empty" class="">
+        Fields
+        <span v-for="(value, name) in errors.empty">{{ name }}, </span>
+        are required;
+      </div>
+      <div v-if="errors.other" class="">
+        <div v-for="(value, name) in errors.other">{{ value }}</div>
+      </div>
+    </div>
     <form @submit="checkForm">
-      <div class="" v-if="errors">
+      <div class="form-errors" v-if="errors">
         <div v-if="errors.empty" class="">
           Fields
           <span v-for="(value, name) in errors.empty">{{ name }}, </span>
@@ -17,7 +30,7 @@
             >{{ item.title }}
             <span class="star" v-if="item.isRequired">*</span></span
           >
-          <input :type="item.type" v-model="formData[item.name]" value="" />
+          <input :type="item.type" v-model="formData[item.name]" />
         </label>
       </div>
       <div class="transcript">
@@ -30,24 +43,38 @@
 
 <script>
 import vueJoiValidation, { Joi } from "vue-joi-validation";
+import axios from "axios";
+import config from "@/config.json";
+import orderService from "@/services/orderService";
+
 export default {
   name: "OrderForm",
   data: () => ({
     formData: {
-      name: "",
+      first_name: "",
+      last_name: "",
+      address_1: "",
       phone: "",
-      email: "",
-      address: "",
-      postCode: ""
+      city: "",
+      country: "",
+      postcode: ""
     },
     errors: {},
+    customerId: null,
     fieldsList: [
       {
-        name: "name",
-        title: "Your name",
+        name: "first_name",
+        title: "First name",
         type: "text",
         value: "",
         isRequired: true
+      },
+      {
+        name: "last_name",
+        title: "Last name",
+        type: "text",
+        value: "",
+        isRequired: false
       },
       {
         name: "phone",
@@ -57,21 +84,28 @@ export default {
         isRequired: true
       },
       {
-        name: "email",
-        title: "Your email",
-        type: "email",
-        value: "",
-        isRequired: true
-      },
-      {
-        name: "address",
-        title: "Your address",
+        name: "address_1",
+        title: "Address",
         type: "text",
         value: "",
         isRequired: true
       },
       {
-        name: "postCode",
+        name: "city",
+        title: "City",
+        type: "text",
+        value: "",
+        isRequired: true
+      },
+      {
+        name: "country",
+        title: "Country",
+        type: "text",
+        value: "",
+        isRequired: true
+      },
+      {
+        name: "postcode",
         title: "Post code",
         type: "text",
         value: "",
@@ -82,23 +116,29 @@ export default {
   computed: {
     joiValidationSchemaObject() {
       return Joi.object({
-        name: Joi.string()
+        first_name: Joi.string()
           .alphanum()
           .required()
-          .label("Name"),
+          .label("First name"),
+        last_name: Joi.string()
+          .alphanum()
+          .label("Last name"),
         phone: Joi.number()
-          .min(7)
-          .max(10)
           .required()
           .label("Phone number"),
-        email: Joi.string()
-          .email({ minDomainSegments: 2 })
-          .label("Email"),
-        address: Joi.string()
+        address_1: Joi.string()
           .alphanum()
           .required()
           .label("Address"),
-        postCode: Joi.string()
+        city: Joi.string()
+          .alphanum()
+          .required()
+          .label("Address"),
+        country: Joi.string()
+          .alphanum()
+          .required()
+          .label("Address"),
+        postcode: Joi.string()
           .alphanum()
           .min(4)
           .max(6)
@@ -108,7 +148,7 @@ export default {
     }
   },
   methods: {
-    checkForm: function(e) {
+    checkForm: async function(e) {
       e.preventDefault();
       const { error } = Joi.validate(
         this.formData,
@@ -116,19 +156,47 @@ export default {
         { abortEarly: false }
       );
       if (!error) {
-        console.log("Form is valid");
-      }
-      const errors = { empty: {}, other: {} };
-      for (let item of error.details) {
-        if (item.type.match("empty")) {
-          errors.empty[item.path[0]] = item.message;
-        } else {
-          errors.other[item.path[0]] = item.message;
+        const line_items = this.$store.state.cartItems.map(item => ({
+          product_id: item.id,
+          quantity: item.quantity
+        }));
+        const form = {
+          customer_id: this.customerId,
+          billing: this.formData,
+          line_items: line_items
+        };
+        try {
+          const result = await orderService.createOrder(form);
+          return this.$router.push("/cart/confirmation");
+        } catch (e) {
+          this.errors = { orderError: e };
         }
+      } else {
+        const errors = { empty: {}, other: {} };
+        for (let item of error.details) {
+          if (item.type.match("empty")) {
+            errors.empty[item.path[0]] = item.message;
+          } else {
+            errors.other[item.path[0]] = item.message;
+          }
+        }
+        this.errors = errors;
       }
-      console.log(errors);
-      this.errors = errors;
     }
+  },
+  mounted: function() {
+    const token = localStorage.getItem("token");
+    axios
+      .get(
+        "https://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/users/me",
+        { params: {}, headers: { Authorization: "Bearer " + token } }
+      )
+      .then(response => {
+        if (response.status === 200) {
+          this.customerId = response.data.id;
+        }
+      })
+      .catch(ex => console.log(ex.response));
   }
 };
 </script>
@@ -137,25 +205,5 @@ export default {
 @import "@/assets/scss/_variables.scss";
 .order-form {
   max-width: 700px;
-}
-.form-group {
-  margin-bottom: 12px;
-  label {
-    display: block;
-  }
-  input {
-    display: block;
-    width: 100%;
-    padding: 7px 16px;
-  }
-  &__label {
-    display: block;
-    margin-bottom: 4px;
-    font-weight: 600;
-  }
-}
-
-.star {
-  color: $inv-color;
 }
 </style>

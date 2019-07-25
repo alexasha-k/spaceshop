@@ -9,7 +9,8 @@ import {
   faHeart,
   faShoppingCart,
   faUserAstronaut,
-  faSignInAlt
+  faSignInAlt,
+  faSignOutAlt
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faTwitter,
@@ -25,6 +26,7 @@ library.add(
   faShoppingCart,
   faUserAstronaut,
   faSignInAlt,
+  faSignOutAlt,
   faFacebook,
   faInstagram,
   faTwitter

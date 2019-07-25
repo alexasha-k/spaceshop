@@ -1,4 +1,4 @@
-<template id="">
+<template>
   <div class="not-found-page">
     <div class="container">
       <div class="not-found-page__inner">

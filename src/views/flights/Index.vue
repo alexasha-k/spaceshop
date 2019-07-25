@@ -1,5 +1,8 @@
 <template>
-  <catalog-page apiPoint="flights"></catalog-page>
+  <div class="container">
+    <h1>Flights</h1>
+    <catalog-page apiPoint="flights"></catalog-page>
+  </div>
 </template>
 
 <script>

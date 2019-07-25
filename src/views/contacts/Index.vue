@@ -2,7 +2,9 @@
   <div class="container mb-5">
     <h1>Contacts</h1>
     <contacts-menu></contacts-menu>
-    <router-view></router-view>
+    <transition name="fade-in">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -15,3 +17,17 @@ export default {
   }
 };
 </script>
+
+<style>
+.fade-in-enter-active {
+  transition: opacity 0.5s 0.15s;
+}
+
+.fade-in-leave-active {
+  transition: opacity 0.15s;
+}
+
+.fade-in-enter {
+  opacity: 0;
+}
+</style>

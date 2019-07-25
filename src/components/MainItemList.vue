@@ -19,12 +19,15 @@
 
 <script>
 import axios from "axios";
+import config from "@/config.json";
 import CatalogItem from "./CatalogItem";
-import items from "@/assets/json/items.json";
+
 export default {
   name: "MainItemList",
   data: () => ({
-    tourList: null
+    tourList: null,
+    apiEndPoint:
+      config.configApiEndpoint + "/wc/v1/products?per_page=4&category="
   }),
   props: ["apiPoint", "title"],
   computed: {
@@ -43,12 +46,8 @@ export default {
   },
   methods: {
     getCatalogData: function() {
-      // const url = this.apiPoint;
       axios
-        .get(
-          "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products?per_page=4&category=" +
-            this.categoryId
-        )
+        .get(this.apiEndPoint + this.categoryId)
         .then(response => (this.tourList = response.data));
     }
   },

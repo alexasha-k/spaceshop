@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 const state = {
   isAuth: false,
-  userInfo: "",
+  customerId: null,
   cartItems: []
 };
 
@@ -27,7 +27,7 @@ const mutations = {
       };
       axios
         .post(
-          "http://spaceshop.alexashaweb.com/wordpress/wp-json/jwt-auth/v1/token/validate",
+          "https://spaceshop.alexashaweb.com/wordpress/wp-json/jwt-auth/v1/token/validate",
           {},
           config
         )
@@ -36,8 +36,7 @@ const mutations = {
             state.isAuth = true;
           }
         })
-        .catch(ex => {
-          console.error(ex);
+        .catch(() => {
           localStorage.removeItem("token");
         });
     }
@@ -70,27 +69,7 @@ const mutations = {
   },
   toggleIsAuth(state) {
     if (localStorage.getItem("token")) {
-      const token = localStorage.getItem("token");
-      const config = {
-        headers: {
-          Authorization: "Bearer " + token
-        }
-      };
-      axios
-        .post(
-          "http://spaceshop.alexashaweb.com/wordpress/wp-json/jwt-auth/v1/token/validate",
-          {},
-          config
-        )
-        .then(response => {
-          if (response.status === 200) {
-            state.isAuth = true;
-          }
-        })
-        .catch(() => {
-          state.isAuth = false;
-          localStorage.removeItem("token");
-        });
+      state.isAuth = true;
     } else {
       state.isAuth = false;
     }

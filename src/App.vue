@@ -25,7 +25,7 @@ export default {
 <style lang="scss">
 @import "assets/scss/style";
 #main {
-  min-height: calc(100vh - 430px);
+  min-height: calc(100vh - 465px);
   position: relative;
 }
 #main h1 {

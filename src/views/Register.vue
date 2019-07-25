@@ -1,17 +1,17 @@
 <template>
   <div class="container mb-5">
-    <h1>Login</h1>
+    <h1>Register</h1>
     <auth-breadcrumbs></auth-breadcrumbs>
-    <auth-form></auth-form>
+    <register-form></register-form>
   </div>
 </template>
 
 <script>
 import AuthBreadcrumbs from "../components/AuthBreadcrumbs";
-import AuthForm from "../components/forms/AuthForm";
+import RegisterForm from "../components/forms/RegisterForm";
 
 export default {
-  name: "LoginForm",
-  components: { AuthBreadcrumbs, AuthForm }
+  name: "Register",
+  components: { AuthBreadcrumbs, RegisterForm }
 };
 </script>

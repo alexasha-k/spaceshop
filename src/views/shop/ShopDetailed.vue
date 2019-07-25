@@ -13,7 +13,7 @@ export default {
   data: vm => ({
     item: null,
     apiEndPoint:
-      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products"
+      "https://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products"
   }),
   methods: {
     getProductData: function() {

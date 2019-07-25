@@ -17,3 +17,30 @@
     </div>
   </div>
 </template>
+
+<script>
+import axios from "axios";
+import config from "@/config.json";
+
+export default {
+  name: "Account",
+  methods: {
+    showOrders: function() {
+      const token = localStorage.getItem("token");
+      axios
+        .get(
+          config.configApiEndpoint +
+            "/wc/v3/orders?customer=" +
+            this.customerId,
+          { params: {}, headers: { Authorization: "Bearer " + token } }
+        )
+        .then(response => {
+          if (response.status === 200) {
+            console.log(response);
+          }
+        })
+        .catch(ex => console.log(ex.response));
+    }
+  }
+};
+</script>

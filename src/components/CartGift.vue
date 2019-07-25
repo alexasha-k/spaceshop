@@ -30,7 +30,6 @@
 <script>
 import jsPDF from "jspdf";
 import * as html2canvas from "html2canvas";
-import axios from "axios";
 
 export default {
   name: "CartGift",
@@ -41,17 +40,6 @@ export default {
     giftImageUrl: null
   }),
   methods: {
-    loadImage: function() {
-      axios
-        .get(
-          "http://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/media/37"
-        )
-        .then(
-          response =>
-            (this.giftImageUrl =
-              response.data.media_details.sizes.medium_large.source_url)
-        );
-    },
     createPDF: function() {
       const el = this.$refs.giftCard;
       var doc = new jsPDF({
@@ -67,26 +55,8 @@ export default {
         .setFontSize(24)
         .setFontStyle("italic")
         .text(this.cardTextSecondLine, 32, 240);
-
       doc.save();
-
-      // html2canvas(el)
-      //   .then(canvas => {
-      //     const imgData = canvas.toDataURL("image/png");
-      //     console.log(imgData);
-      //     var doc = new jsPDF({
-      //       orientation: "l",
-      //       unit: "px",
-      //       format: [768, 511]
-      //     });
-      //     doc.addImage(imgData, "JPEG", 0, 0);
-      //     doc.save();
-      //   })
-      //   .catch(ex => console.log(ex));
     }
-  },
-  mounted: function() {
-    this.loadImage();
   }
 };
 </script>

@@ -48,6 +48,7 @@
 
 <script>
 import axios from "axios";
+import config from "@/config.json";
 import CatalogMenu from "./CatalogMenu";
 import CatalogFilters from "./CatalogFilters";
 import CatalogSearch from "./CatalogSearch";
@@ -67,8 +68,7 @@ export default {
       name: "",
       isDescOrder: true
     },
-    apiEndPoint:
-      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products?per_page=12"
+    apiEndPoint: config.configApiEndpoint + "/wc/v1/products?per_page=12"
   }),
   props: ["apiPoint"],
   computed: {
