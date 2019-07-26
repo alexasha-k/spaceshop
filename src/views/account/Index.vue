@@ -5,13 +5,13 @@
       <div class="col-3">
         <aside>
           <nav class="account-menu">
-            Account nav
+            <sidebar-menu></sidebar-menu>
           </nav>
         </aside>
       </div>
       <div class="col-9">
         <div class="content">
-          User info
+          <router-view :customer-id="customerId"></router-view>
         </div>
       </div>
     </div>
@@ -21,26 +21,32 @@
 <script>
 import axios from "axios";
 import config from "@/config.json";
+import SidebarMenu from "../../components/SidebarMenu";
 
 export default {
   name: "Account",
+  data: () => ({
+    customerId: ""
+  }),
   methods: {
-    showOrders: function() {
+    getUserId: function() {
       const token = localStorage.getItem("token");
-      axios
+      return axios
         .get(
-          config.configApiEndpoint +
-            "/wc/v3/orders?customer=" +
-            this.customerId,
+          "https://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/users/me",
           { params: {}, headers: { Authorization: "Bearer " + token } }
         )
         .then(response => {
           if (response.status === 200) {
-            console.log(response);
+            this.customerId = response.data.id;
           }
         })
         .catch(ex => console.log(ex.response));
     }
-  }
+  },
+  async mounted() {
+    await this.getUserId();
+  },
+  components: { SidebarMenu }
 };
 </script>

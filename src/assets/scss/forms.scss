@@ -15,6 +15,27 @@
   }
 }
 
+.form-group--checkbox {
+  label {
+    display: block;
+  }
+  input {
+    display: none;
+  }
+  &__label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  &__checkmark {
+    display: inline-block;
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border: 2px solid $inv-color;
+  }
+}
+
 .star {
   color: $inv-color;
 }

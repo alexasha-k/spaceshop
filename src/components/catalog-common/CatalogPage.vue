@@ -41,6 +41,11 @@
         <div v-if="items && !items.length">
           There is no items here.
         </div>
+        <base-pagination
+          :pageNumbers="pageNumbers"
+          :currentPage="currentPage"
+          v-on:change-page="onChangePage"
+        ></base-pagination>
       </div>
     </div>
   </div>
@@ -61,6 +66,8 @@ export default {
   data: vm => ({
     items: null,
     currentItem: null,
+    pageNumbers: 5,
+    currentPage: 1,
     searchText: "",
     catalogViews: ["grid", "list", "table"],
     catalogView: "grid",
@@ -120,10 +127,16 @@ export default {
     onViewMenuItems: function(val) {
       this.catalogView = val;
     },
+    onChangePage: function(val) {
+      this.currentPage = +val;
+    },
     getCatalogData: function() {
       axios
         .get(this.apiEndPoint + "&category=" + this.categoryId)
-        .then(response => (this.items = response.data));
+        .then(response => {
+          this.pageNumbers = +response.headers["x-wp-totalpages"];
+          this.items = response.data;
+        });
     }
   },
   mounted: function() {

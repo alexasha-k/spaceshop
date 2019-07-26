@@ -6,7 +6,10 @@
         <!-- <div class="raiting">{{ item.average_rating }}</div> -->
       </div>
       <div class="tour-item__image">
-        <img :src="item.images[0].src" :alt="item.images[0].alt" />
+        <transition name="fade-in">
+          <div v-if="!imageUrl" class="preloader"></div>
+          <img v-if="imageUrl" :src="imageUrl" :alt="item.name" />
+        </transition>
       </div>
       <div class="tour-item__info">
         <router-link
@@ -14,9 +17,12 @@
           :to="'/' + apiPoint + '/' + item.id"
           >{{ item.name }}</router-link
         >
-        <div class="tour-item__desc" v-html="item.description"></div>
+        <div class="tour-item__desc" v-html="item.short_description"></div>
       </div>
       <div v-if="item.price" class="tour-item__price">
+        <span v-if="item.sale_price" class="discount"
+          >{{ item.regular_price }} <span class="price">AUD</span></span
+        >
         {{ item.price }} <span class="price">AUD</span>
       </div>
       <div v-else class="tour-item__price">Price by request</div>
@@ -35,10 +41,15 @@
 </template>
 
 <script>
+import axios from "axios";
+import config from "@/config.json";
 import AddToCartBtn from "./common/AddToCartBtn";
+
 export default {
   name: "CatalogItem",
-  data: vm => ({}),
+  data: () => ({
+    imageUrl: null
+  }),
   props: {
     item: {},
     isShopItem: {
@@ -48,12 +59,49 @@ export default {
     },
     apiPoint: String
   },
+  methods: {
+    getResizedImage: function() {
+      const imageId = this.item.images[0].id;
+      if (imageId !== 0) {
+        return axios
+          .get(config.configApiEndpoint + "/wp/v2/media/" + imageId)
+          .then(response => {
+            this.imageUrl =
+              response.data.media_details.sizes.shop_catalog.source_url;
+          })
+          .catch(ex => console.log(ex));
+      } else {
+        this.imageUrl = this.item.images[0].src;
+      }
+    }
+  },
+  watch: {
+    item: function(newVal, prevVal) {
+      if (newVal) {
+        this.getResizedImage();
+      }
+    }
+  },
+  async mounted() {
+    if (this.item) {
+      await this.getResizedImage();
+    }
+  },
   components: { AddToCartBtn }
 };
 </script>
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables.scss";
+.preloader {
+  background-color: black;
+  opacity: 0.6;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
 .tour-item {
   position: relative;
   margin-bottom: 20px;
@@ -68,6 +116,7 @@ export default {
     height: 180px;
     margin-bottom: 18px;
     background-color: $inv-color-light;
+    position: relative;
     img {
       width: 100%;
       height: 100%;
@@ -90,7 +139,7 @@ export default {
   &__desc {
     margin-top: 12px;
     margin-bottom: 12px;
-    height: 52px;
+    height: 54px;
     overflow: hidden;
     display: -webkit-box;
     text-overflow: ellipsis;
@@ -101,10 +150,28 @@ export default {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 24px;
+    .discount {
+      text-decoration: line-through;
+      display: inline-block;
+      padding-right: 24px;
+    }
   }
   /deep/ .btn {
     display: block;
     width: 100%;
   }
+}
+
+.fade-in-enter-active {
+  transition: opacity 0.8s;
+}
+
+.fade-in-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-in-enter,
+.fade-in-leave {
+  opacity: 0;
 }
 </style>

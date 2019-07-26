@@ -21,7 +21,7 @@ export default {
       },
       {
         locationGroup: 2,
-        name: "Luna"
+        name: "Moon"
       },
       {
         locationGroup: 2,

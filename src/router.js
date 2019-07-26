@@ -106,8 +106,22 @@ const router = new Router({
     {
       path: "/account",
       name: "account",
-      component: () => import("./views/Account.vue"),
-      meta: { requiresAuth: true }
+      component: () => import("./views/account/Index.vue"),
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: "",
+          component: () => import("./views/account/AccountInfo.vue")
+        },
+        {
+          path: "info",
+          component: () => import("./views/account/AccountInfo.vue")
+        },
+        {
+          path: "orders",
+          component: () => import("./views/account/AccountOrders.vue")
+        }
+      ]
     },
     {
       path: "/delivery",
