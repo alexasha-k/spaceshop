@@ -1,17 +1,17 @@
 <template>
   <header>
     <div class="header-top">
-      <div class="container">
+      <div class="container-fluid">
         <header-top></header-top>
       </div>
     </div>
     <div class="header-bottom">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
           <div class="col">
             <nav-bar></nav-bar>
           </div>
-          <div class="col-2 right-col">
+          <div class="col-6 col-sm-3 right-col">
             <div class="row justify-content-end">
               <div class="col-auto">
                 <cart-icon></cart-icon>

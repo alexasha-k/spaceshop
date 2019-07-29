@@ -1,5 +1,5 @@
 <template>
-  <div class="container mb-5">
+  <div class="container-fluid mb-5">
     <h1>Register</h1>
     <auth-breadcrumbs></auth-breadcrumbs>
     <register-form></register-form>

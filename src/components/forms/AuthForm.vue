@@ -90,6 +90,7 @@ export default {
         this.errors = null;
         try {
           await authService.authUser(this.form);
+          this.$router.push("/account");
         } catch (e) {
           this.errors = { authError: e };
         }

@@ -9,7 +9,7 @@
     ></main-item-list>
     <main-item-list title="Hot Flights" apiPoint="flights"></main-item-list>
     <div class="bg-gray">
-      <div class="container mt-5">
+      <div class="container-fluid mt-5">
         <base-seo-text class="mb-5">
           <p>
             Our shop Our shop Our shop Our shop Our shop Our shop Our shop Our

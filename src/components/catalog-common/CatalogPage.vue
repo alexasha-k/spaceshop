@@ -1,7 +1,7 @@
 <template>
   <div class="row">
-    <div class="col-3">
-      <div class="aside">
+    <div class="col-md-3">
+      <div class="aside mb-4">
         <catalog-menu
           v-on:change-menu-item="onChangeMenuItem"
           :currentItem="currentItem"
@@ -96,8 +96,14 @@ export default {
     onChangeMenuItem: function(val) {
       this.currentItem = val;
       const id = val || this.categoryId;
-      const url = this.apiEndPoint + "&category=" + id;
-      axios.get(url).then(response => (this.items = response.data));
+      const params = {
+        params: {
+          category: id
+        }
+      };
+      axios
+        .get(this.apiEndPoint, params)
+        .then(response => (this.items = response.data));
     },
     onSortMenuItem: function(val) {
       const checkOrder =
@@ -107,36 +113,57 @@ export default {
       this.sortingValue.name = val;
       const order = checkOrder ? "desc" : "asc";
       const orderBy = val;
-      const url =
-        this.apiEndPoint +
-        "&category=" +
-        this.categoryId +
-        "&order=" +
-        order +
-        "&orderby=" +
-        orderBy;
-      axios.get(url).then(response => (this.items = response.data));
+      const params = {
+        params: {
+          category: this.categoryId,
+          order: order,
+          orderby: orderBy
+        }
+      };
+      axios
+        .get(this.apiEndPoint, params)
+        .then(response => (this.items = response.data));
     },
     onSearchMenuItem: function(val) {
       let str = val.trim();
       if (str === this.searchText || (str.length && str.length < 3)) return;
       this.searchText = str;
-      const url = this.apiEndPoint + "&search=" + val;
-      axios.get(url).then(response => (this.items = response.data));
+      const params = {
+        params: {
+          category: this.categoryId,
+          search: val
+        }
+      };
+      axios
+        .get(this.apiEndPoint, params)
+        .then(response => (this.items = response.data));
     },
     onViewMenuItems: function(val) {
       this.catalogView = val;
     },
     onChangePage: function(val) {
       this.currentPage = +val;
+      const params = {
+        params: {
+          category: this.categoryId,
+          page: this.currentPage
+        }
+      };
+      axios.get(this.apiEndPoint, params).then(response => {
+        this.pageNumbers = +response.headers["x-wp-totalpages"];
+        this.items = response.data;
+      });
     },
     getCatalogData: function() {
-      axios
-        .get(this.apiEndPoint + "&category=" + this.categoryId)
-        .then(response => {
-          this.pageNumbers = +response.headers["x-wp-totalpages"];
-          this.items = response.data;
-        });
+      const params = {
+        params: {
+          category: this.categoryId
+        }
+      };
+      axios.get(this.apiEndPoint, params).then(response => {
+        this.pageNumbers = +response.headers["x-wp-totalpages"];
+        this.items = response.data;
+      });
     }
   },
   mounted: function() {

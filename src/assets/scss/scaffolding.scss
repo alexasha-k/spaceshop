@@ -5,6 +5,10 @@ body {
   color: $default;
 }
 
+.container-fluid {
+  max-width: 1140px;
+}
+
 h2 {
   font-size: 36px;
   margin-bottom: 36px;

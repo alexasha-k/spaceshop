@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <h1>Flights</h1>
     <catalog-page apiPoint="flights"></catalog-page>
   </div>

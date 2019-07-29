@@ -1,12 +1,12 @@
 <template>
   <div v-if="tourList" class="main-tours">
-    <div class="container">
+    <div class="container-fluid">
       <h2>
         <span class="decoration-line">{{ title }}</span>
       </h2>
       <div class="row">
         <catalog-item
-          class="col"
+          class="col-lg-3 col-6"
           v-for="item in tourList"
           :isShopItem="apiPoint === 'shop'"
           :item="item"
@@ -61,5 +61,11 @@ export default {
 <style scoped lang="scss">
 .main-tours {
   padding: 50px 0;
+}
+
+@media (max-width: 767px) {
+  .main-tours {
+    padding: 26px 0;
+  }
 }
 </style>

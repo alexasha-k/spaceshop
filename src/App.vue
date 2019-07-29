@@ -23,7 +23,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "assets/scss/style";
 #main {
   min-height: calc(100vh - 465px);
   position: relative;
@@ -38,5 +37,11 @@ export default {
 
 .fade-in-enter {
   opacity: 0;
+}
+
+@media (max-width: 767px) {
+  #main h1 {
+    margin-top: 32px;
+  }
 }
 </style>

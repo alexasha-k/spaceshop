@@ -47,6 +47,8 @@ import axios from "axios";
 import config from "@/config.json";
 import orderService from "@/services/orderService";
 
+import store from "@/store";
+
 export default {
   name: "OrderForm",
   data: () => ({
@@ -127,7 +129,6 @@ export default {
           .required()
           .label("Phone number"),
         address_1: Joi.string()
-          .alphanum()
           .required()
           .label("Address"),
         city: Joi.string()
@@ -167,6 +168,7 @@ export default {
         };
         try {
           const result = await orderService.createOrder(form);
+          store.dispatch("clearCart");
           return this.$router.push("/cart/confirmation");
         } catch (e) {
           this.errors = { orderError: e };

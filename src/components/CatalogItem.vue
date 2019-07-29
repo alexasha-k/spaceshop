@@ -162,6 +162,17 @@ export default {
   }
 }
 
+@media (max-width: 575px) {
+  .tour-item {
+    &__price {
+      font-size: 18px;
+    }
+    &__image {
+      height: 100px;
+    }
+  }
+}
+
 .fade-in-enter-active {
   transition: opacity 0.8s;
 }

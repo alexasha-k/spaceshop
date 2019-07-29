@@ -1,20 +1,27 @@
 <template>
   <div class="navbar">
     <nav class="row no-gutters">
-      <router-link
-        v-for="link in links"
-        :to="link.path"
-        v-bind:key="link.title"
-        :exact="link.path === '/'"
-        >{{ link.title }}</router-link
-      >
+      <div class="navbar__toggle" v-on:click="onNavbarToggle">
+        <font-awesome-icon icon="bars" class="fa-2x"></font-awesome-icon>
+      </div>
+      <template v-if="isNavbarOpen">
+        <router-link
+          v-for="link in links"
+          :to="link.path"
+          v-bind:key="link.title"
+          :exact="link.path === '/'"
+          >{{ link.title }}</router-link
+        >
+      </template>
     </nav>
   </div>
 </template>
 
 <script>
 export default {
+  name: "NavBar",
   data: () => ({
+    isNavbarOpen: true,
     title: "Menu",
     links: [
       { title: "Home", path: "/" },
@@ -25,7 +32,17 @@ export default {
       { title: "Contacts", path: "/contacts" }
     ]
   }),
-  name: "NavBar"
+  methods: {
+    onNavbarToggle: function() {
+      this.isNavbarOpen = !this.isNavbarOpen;
+    }
+  },
+  mounted() {
+    console.log(window.innerWidth);
+    if (window.innerWidth < 768) {
+      this.isNavbarOpen = false;
+    }
+  }
 };
 </script>
 
@@ -37,7 +54,7 @@ export default {
   font-size: 18px;
   text-transform: uppercase;
   font-weight: 600;
-  padding: 12px 32px 12px;
+  padding: 14px 32px;
   &:before {
     content: "";
     display: block;
@@ -54,6 +71,35 @@ export default {
   }
   &:hover:before,
   &.router-link-active:before {
+    width: 100%;
+  }
+}
+
+.navbar__toggle {
+  display: none;
+}
+@media (max-width: 1199px) {
+  .navbar nav a {
+    padding: 14px 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    &__toggle {
+      display: block;
+      padding: 8px 18px;
+      color: white;
+      cursor: pointer;
+    }
+  }
+  .navbar nav a {
+    padding: 14px 18px;
+    background-color: $inv-color;
     width: 100%;
   }
 }

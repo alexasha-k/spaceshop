@@ -108,4 +108,51 @@ export default {
     font-weight: 600;
   }
 }
+
+@media (max-width: 575px) {
+  .cart-table {
+    display: block;
+    td {
+      display: block;
+    }
+    thead {
+      display: none;
+    }
+    tbody tr {
+      display: grid;
+      grid-template-columns: 26px 1fr 1fr 1fr;
+    }
+    tbody {
+      td:nth-child(2) {
+        grid-column: 2 / 4;
+      }
+      td:nth-child(3),
+      td:nth-child(4) {
+        text-align: right;
+      }
+      td:nth-child(5) {
+        grid-column: 3;
+        grid-row: 2;
+      }
+      td:nth-child(6) {
+        grid-column: 4;
+        text-align: right;
+      }
+      td:nth-child(7) {
+        grid-column: 1 / 3;
+        grid-row: 2;
+      }
+    }
+    tfoot {
+      td:nth-child(3),
+      td:nth-child(5) {
+        display: none;
+      }
+      td:nth-child(2),
+      td:nth-child(4) {
+        text-align: right;
+      }
+    }
+  }
+}
 </style>

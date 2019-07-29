@@ -12,6 +12,7 @@ export default {
     accountLogout: function() {
       localStorage.removeItem("token");
       this.toggleIsAuth();
+      this.$router.replace("/login");
     },
     ...mapActions(["toggleIsAuth"])
   }

@@ -49,4 +49,13 @@ export default {
     font-weight: 600;
   }
 }
+
+@media (max-width: 767px) {
+  .form-group {
+    &__label {
+      margin-right: 18px;
+      font-size: 18px;
+    }
+  }
+}
 </style>

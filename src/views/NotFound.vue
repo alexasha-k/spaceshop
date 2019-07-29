@@ -1,6 +1,6 @@
 <template>
   <div class="not-found-page">
-    <div class="container">
+    <div class="container-fluid">
       <div class="not-found-page__inner">
         <div class="big-number">
           404

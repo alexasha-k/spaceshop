@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer class="footer">
     <div class="container">
       <footer-menu></footer-menu>
       <footer-copyright></footer-copyright>

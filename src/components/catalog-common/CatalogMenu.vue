@@ -66,7 +66,7 @@ export default {
       font-size: 18px;
       text-transform: uppercase;
       font-weight: 600;
-      padding: 12px 16px 12px;
+      padding: 12px 16px;
       color: white;
       cursor: pointer;
       background-color: $added-color;
@@ -76,6 +76,16 @@ export default {
       &.active {
         background-color: $black5;
         color: $added-color;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .aside-menu {
+    &__item {
+      a {
+        font-size: 16px;
       }
     }
   }

@@ -2,9 +2,15 @@
   <div class="cart-gift mt-4">
     <div class="cart-gift__pretext">
       Congratulations! You've got a gift card. Please, choose design and text!
-      <label>
-        <input type="checkbox" v-model="isAgreeForGift" />
-      </label>
+      <div class="form-group form-group--checkbox">
+        <label>
+          <input type="checkbox" v-model="isAgreeForGift" />
+          <span class="form-group__checkmark"
+            ><font-awesome-icon icon="check"></font-awesome-icon
+          ></span>
+          <span class="form-group__label">I agree</span>
+        </label>
+      </div>
     </div>
     <div v-if="isAgreeForGift" class="cart-gift__selection">
       <div class="gift-card">

@@ -6,6 +6,7 @@ import upperFirst from "lodash/upperFirst";
 import camelCase from "lodash/camelCase";
 require("bootstrap/scss/bootstrap-reboot.scss");
 require("bootstrap/scss/bootstrap-grid.scss");
+require("./assets/scss/_style.scss");
 
 Vue.config.productionTip = false;
 const requireComponent = require.context(

@@ -1,0 +1,23 @@
+@media (max-width: 1199px) {
+}
+
+@media (max-width: 991px) {
+}
+
+@media (max-width: 767px) {
+  h2 {
+    font-size: 26px;
+    margin-bottom: 26px;
+  }
+}
+
+@media (max-width: 575px) {
+  .btn {
+    font-size: 16px;
+    padding: 10px 22px;
+    &-sm {
+      font-size: 14px;
+      padding: 8px 18px;
+    }
+  }
+}

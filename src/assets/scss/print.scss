@@ -1,0 +1,8 @@
+@media print {
+  .footer,
+  .header-bottom,
+  [aria-hidden="true"],
+  [aria-label="controls-block"] {
+    display: none;
+  }
+}

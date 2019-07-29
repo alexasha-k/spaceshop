@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <h1>Cart</h1>
     <cart-breadcrumbs></cart-breadcrumbs>
     <router-view></router-view>

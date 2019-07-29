@@ -1,7 +1,7 @@
 <template>
   <div class="row" :class="[view]">
     <catalog-item
-      :class="[view === 'grid' ? 'col-4' : 'col-12']"
+      :class="[view === 'grid' ? 'col-6 col-lg-4' : 'col-12']"
       v-for="item in data"
       isShopItem
       :apiPoint="apiPoint"

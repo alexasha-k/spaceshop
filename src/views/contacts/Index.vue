@@ -1,5 +1,5 @@
 <template>
-  <div class="container mb-5">
+  <div class="container-fluid mb-5">
     <h1>Contacts</h1>
     <contacts-menu></contacts-menu>
     <transition name="fade-in">

@@ -1,15 +1,15 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
     <h1>Account</h1>
     <div class="row">
-      <div class="col-3">
-        <aside>
+      <div class="col-md-3">
+        <aside class="mb-4">
           <nav class="account-menu">
             <sidebar-menu></sidebar-menu>
           </nav>
         </aside>
       </div>
-      <div class="col-9">
+      <div class="col">
         <div class="content">
           <router-view :customer-id="customerId"></router-view>
         </div>

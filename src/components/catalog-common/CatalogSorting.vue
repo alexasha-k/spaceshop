@@ -80,4 +80,11 @@ export default {
     border-bottom: 8px solid;
   }
 }
+@media (max-width: 767px) {
+  .sorting-block {
+    &__title {
+      font-size: 18px;
+    }
+  }
+}
 </style>
