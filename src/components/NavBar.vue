@@ -1,9 +1,9 @@
 <template>
   <div class="navbar">
+    <div class="navbar__toggle" v-on:click="onNavbarToggle">
+      <font-awesome-icon icon="bars" class="fa-2x"></font-awesome-icon>
+    </div>
     <nav class="row no-gutters">
-      <div class="navbar__toggle" v-on:click="onNavbarToggle">
-        <font-awesome-icon icon="bars" class="fa-2x"></font-awesome-icon>
-      </div>
       <template v-if="isNavbarOpen">
         <router-link
           v-for="link in links"
@@ -38,8 +38,8 @@ export default {
     }
   },
   mounted() {
-    console.log(window.innerWidth);
     if (window.innerWidth < 768) {
+      console.log(window.innerWidth);
       this.isNavbarOpen = false;
     }
   }
@@ -101,6 +101,15 @@ export default {
     padding: 14px 18px;
     background-color: $inv-color;
     width: 100%;
+  }
+  .slide-leave-active,
+  .slide-enter-active {
+    transition: transform 0.5s;
+  }
+
+  .slide-enter,
+  .slide-leave-to {
+    transform: translateX(-180px);
   }
 }
 </style>

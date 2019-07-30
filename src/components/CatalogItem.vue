@@ -1,32 +1,33 @@
 <template>
-  <div class="tour-item">
-    <div class="tour-item__card">
-      <div class="tour-item__actions">
+  <div class="catalog-item">
+    <div class="catalog-item__card">
+      <div class="catalog-item__actions">
         <div class="favorite"></div>
         <!-- <div class="raiting">{{ item.average_rating }}</div> -->
       </div>
-      <div class="tour-item__image">
+      <div class="catalog-item__image">
         <transition name="fade-in">
           <div v-if="!imageUrl" class="preloader"></div>
           <img v-if="imageUrl" :src="imageUrl" :alt="item.name" />
         </transition>
       </div>
-      <div class="tour-item__info">
+      <div class="catalog-item__info">
         <router-link
-          class="tour-item__title"
+          class="catalog-item__title"
           :to="'/' + apiPoint + '/' + item.id"
           >{{ item.name }}</router-link
         >
-        <div class="tour-item__desc" v-html="item.short_description"></div>
+        <div class="catalog-item__desc" v-html="item.short_description"></div>
       </div>
-      <div v-if="item.price" class="tour-item__price">
+      <div v-if="item.price" class="catalog-item__price">
         <span v-if="item.sale_price" class="discount"
-          >{{ item.regular_price }} <span class="price">AUD</span></span
+          >{{ item.regular_price | currency }}
+          <span class="price">AUD</span></span
         >
-        {{ item.price }} <span class="price">AUD</span>
+        {{ item.price | currency }} <span class="price">AUD</span>
       </div>
-      <div v-else class="tour-item__price">Price by request</div>
-      <div class="tour-item__buy">
+      <div v-else class="catalog-item__price">Price by request</div>
+      <div class="catalog-item__buy">
         <router-link
           v-if="!isShopItem"
           :to="'/' + apiPoint + '/' + item.id"
@@ -75,6 +76,16 @@ export default {
       }
     }
   },
+  filters: {
+    currency: function(val) {
+      if (!val) return "";
+      var gasPrice = new Intl.NumberFormat("en-AU", {
+        style: "decimal",
+        minimumFractionDigits: 2
+      });
+      return gasPrice.format(val);
+    }
+  },
   watch: {
     item: function(newVal, prevVal) {
       if (newVal) {
@@ -102,7 +113,7 @@ export default {
   left: 0;
   width: 100%;
 }
-.tour-item {
+.catalog-item {
   position: relative;
   margin-bottom: 20px;
   &__card {
@@ -151,9 +162,22 @@ export default {
     font-weight: 600;
     margin-bottom: 24px;
     .discount {
-      text-decoration: line-through;
       display: inline-block;
-      padding-right: 24px;
+      margin-right: 24px;
+      padding: 0 3px;
+      color: $inv-color;
+      position: relative;
+      &:before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: currentColor;
+        position: absolute;
+        top: 12px;
+        left: 0;
+        transform: rotate(-5deg);
+      }
     }
   }
   /deep/ .btn {
@@ -163,7 +187,7 @@ export default {
 }
 
 @media (max-width: 575px) {
-  .tour-item {
+  .catalog-item {
     &__price {
       font-size: 18px;
     }

@@ -3,7 +3,7 @@
     <catalog-item
       :class="[view === 'grid' ? 'col-6 col-lg-4' : 'col-12']"
       v-for="item in data"
-      isShopItem
+      :isShopItem="apiPoint === 'shop'"
       :apiPoint="apiPoint"
       :item="item"
     ></catalog-item>
@@ -24,7 +24,7 @@ export default {
 
 <style lang="scss" scoped>
 .list {
-  /deep/ .tour-item {
+  /deep/ .catalog-item {
     &__card {
       display: grid;
       grid-template-columns: 250px 1fr 220px;
@@ -45,7 +45,7 @@ export default {
   }
 }
 .table {
-  /deep/ .tour-item {
+  /deep/ .catalog-item {
     &__card {
       display: grid;
       grid-template-columns: 100px 1fr 1fr 160px;

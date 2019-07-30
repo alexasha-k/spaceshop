@@ -27,7 +27,6 @@ const router = new Router({
     },
     {
       path: "/tours",
-      name: "tours",
       component: () => import("./views/tours/Index.vue"),
       children: [
         {
@@ -42,7 +41,6 @@ const router = new Router({
     },
     {
       path: "/shop",
-      name: "shop",
       component: () => import("./views/shop/Index.vue"),
       children: [
         {
@@ -57,7 +55,6 @@ const router = new Router({
     },
     {
       path: "/cart",
-      name: "cart",
       component: () => import("./views/cart/Index.vue"),
       children: [
         {
@@ -76,7 +73,6 @@ const router = new Router({
     },
     {
       path: "/contacts",
-      name: "contacts",
       component: () => import("./views/contacts/Index.vue"),
       children: [
         {
@@ -105,7 +101,6 @@ const router = new Router({
     },
     {
       path: "/account",
-      name: "account",
       component: () => import("./views/account/Index.vue"),
       meta: { requiresAuth: true },
       children: [

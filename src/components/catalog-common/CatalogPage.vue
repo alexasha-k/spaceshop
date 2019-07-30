@@ -42,6 +42,7 @@
           There is no items here.
         </div>
         <base-pagination
+          v-if="pageNumbers > 1"
           :pageNumbers="pageNumbers"
           :currentPage="currentPage"
           v-on:change-page="onChangePage"
