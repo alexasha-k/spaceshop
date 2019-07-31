@@ -134,11 +134,11 @@ export default {
         city: Joi.string()
           .alphanum()
           .required()
-          .label("Address"),
+          .label("City"),
         country: Joi.string()
           .alphanum()
           .required()
-          .label("Address"),
+          .label("Country"),
         postcode: Joi.string()
           .alphanum()
           .min(4)
@@ -159,7 +159,8 @@ export default {
       if (!error) {
         const line_items = this.$store.state.cartItems.map(item => ({
           product_id: item.id,
-          quantity: item.quantity
+          quantity: item.quantity,
+          variation_id: item.variation_id || 0
         }));
         const form = {
           customer_id: this.customerId,

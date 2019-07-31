@@ -12,7 +12,8 @@ import {
   faSignInAlt,
   faSignOutAlt,
   faCheck,
-  faBars
+  faBars,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faTwitter,
@@ -31,6 +32,7 @@ library.add(
   faSignOutAlt,
   faCheck,
   faBars,
+  faTimes,
   faFacebook,
   faInstagram,
   faTwitter

@@ -7,12 +7,13 @@
 
 <script>
 import axios from "axios";
+import config from "@/config.json";
+
 export default {
   name: "BaseRenderPage",
   data: () => ({
     page: null,
-    apiEndPoint:
-      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/pages/"
+    apiEndPoint: config.configApiEndpoint + "/wp/v2/pages/"
   }),
   props: ["pageId"],
   methods: {

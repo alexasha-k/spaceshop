@@ -6,6 +6,7 @@
 
 <script>
 import axios from "axios";
+import config from "@/config.json";
 import ContactsList from "../../components/contacts/ContactsList";
 
 export default {
@@ -13,7 +14,7 @@ export default {
   data: () => ({
     travel: null,
     apiEndPoint:
-      "http://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/posts?categories=35&order=asc",
+      config.configApiEndpoint + "/wp/v2/posts?categories=35&order=asc",
     planetList: [
       {
         locationGroup: 1,

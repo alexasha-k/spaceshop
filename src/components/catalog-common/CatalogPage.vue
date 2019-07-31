@@ -37,10 +37,8 @@
           :data="items"
           :apiPoint="apiPoint"
           :view="catalogView"
+          :isDataPending="isDataPending"
         ></catalog-content>
-        <div v-if="items && !items.length">
-          There is no items here.
-        </div>
         <base-pagination
           v-if="pageNumbers > 1"
           :pageNumbers="pageNumbers"
@@ -67,6 +65,7 @@ export default {
   data: vm => ({
     items: null,
     currentItem: null,
+    isDataPending: false,
     pageNumbers: 5,
     currentPage: 1,
     searchText: "",
@@ -76,7 +75,8 @@ export default {
       name: "",
       isDescOrder: true
     },
-    apiEndPoint: config.configApiEndpoint + "/wc/v1/products?per_page=12"
+    apiEndPoint: config.configApiEndpoint + "/wc/v1/products?per_page=12",
+    loadErrors: ""
   }),
   props: ["apiPoint"],
   computed: {
@@ -94,6 +94,16 @@ export default {
     }
   },
   methods: {
+    onCatchError: function() {
+      this.loadErrors =
+        "Please, check your internet connection and reload page";
+      this.isDataPending = false;
+    },
+    onSuccessResponse: function(response) {
+      this.pageNumbers = +response.headers["x-wp-totalpages"];
+      this.items = response.data;
+      this.isDataPending = false;
+    },
     onChangeMenuItem: function(val) {
       this.currentItem = val;
       const id = val || this.categoryId;
@@ -102,9 +112,11 @@ export default {
           category: id
         }
       };
+      this.isDataPending = true;
       axios
         .get(this.apiEndPoint, params)
-        .then(response => (this.items = response.data));
+        .then(response => this.onSuccessResponse(response))
+        .catch(() => this.onCatchError());
     },
     onSortMenuItem: function(val) {
       const checkOrder =
@@ -121,9 +133,11 @@ export default {
           orderby: orderBy
         }
       };
+      this.isDataPending = true;
       axios
         .get(this.apiEndPoint, params)
-        .then(response => (this.items = response.data));
+        .then(response => this.onSuccessResponse(response))
+        .catch(() => this.onCatchError());
     },
     onSearchMenuItem: function(val) {
       let str = val.trim();
@@ -135,9 +149,11 @@ export default {
           search: val
         }
       };
+      this.isDataPending = true;
       axios
         .get(this.apiEndPoint, params)
-        .then(response => (this.items = response.data));
+        .then(response => this.onSuccessResponse(response))
+        .catch(() => this.onCatchError());
     },
     onViewMenuItems: function(val) {
       this.catalogView = val;
@@ -150,21 +166,23 @@ export default {
           page: this.currentPage
         }
       };
-      axios.get(this.apiEndPoint, params).then(response => {
-        this.pageNumbers = +response.headers["x-wp-totalpages"];
-        this.items = response.data;
-      });
+      this.isDataPending = true;
+      axios
+        .get(this.apiEndPoint, params)
+        .then(response => this.onSuccessResponse(response))
+        .catch(() => this.onCatchError());
     },
     getCatalogData: function() {
+      this.isDataPending = true;
       const params = {
         params: {
           category: this.categoryId
         }
       };
-      axios.get(this.apiEndPoint, params).then(response => {
-        this.pageNumbers = +response.headers["x-wp-totalpages"];
-        this.items = response.data;
-      });
+      axios
+        .get(this.apiEndPoint, params)
+        .then(response => this.onSuccessResponse(response))
+        .catch(() => this.onCatchError());
     }
   },
   mounted: function() {

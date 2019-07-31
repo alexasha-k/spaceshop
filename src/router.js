@@ -102,19 +102,20 @@ const router = new Router({
     {
       path: "/account",
       component: () => import("./views/account/Index.vue"),
-      meta: { requiresAuth: true },
       children: [
         {
           path: "",
-          component: () => import("./views/account/AccountInfo.vue")
+          redirect: "info"
         },
         {
           path: "info",
-          component: () => import("./views/account/AccountInfo.vue")
+          component: () => import("./views/account/AccountInfo.vue"),
+          meta: { requiresAuth: true }
         },
         {
           path: "orders",
-          component: () => import("./views/account/AccountOrders.vue")
+          component: () => import("./views/account/AccountOrders.vue"),
+          meta: { requiresAuth: true }
         }
       ]
     },
@@ -145,7 +146,7 @@ router.beforeEach((to, from, next) => {
     if (!auth.loggedIn()) {
       next({
         path: "/login",
-        query: { redirect: "/account" }
+        query: { redirect: "/account/info" }
       });
     } else {
       next();

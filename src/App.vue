@@ -7,6 +7,7 @@
       </transition>
     </main>
     <main-footer></main-footer>
+    <base-modal v-if="$store.state.variableProduct"></base-modal>
   </div>
 </template>
 

@@ -3,7 +3,6 @@
     class="btn btn-sm"
     :disabled="isInCartItem"
     type="button"
-    name="button"
     @click="handleButtonClick(item)"
   >
     {{ buyButtonText }}
@@ -16,12 +15,10 @@ export default {
   name: "AddToCartBtn",
   props: ["item"],
   computed: {
-    isInCartItem: {
-      get() {
-        return Boolean(
-          this.getCartItems().find(item => item.id === this.item.id)
-        );
-      }
+    isInCartItem: function() {
+      return Boolean(
+        this.getCartItems().find(item => item.id === this.item.id)
+      );
     },
     buyButtonText: props => (!props.isInCartItem ? "Add to cart" : "In cart")
   },

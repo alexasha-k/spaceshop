@@ -1,12 +1,18 @@
 <template>
-  <div class="row" :class="[view]">
-    <catalog-item
-      :class="[view === 'grid' ? 'col-6 col-lg-4' : 'col-12']"
-      v-for="item in data"
-      :isShopItem="apiPoint === 'shop'"
-      :apiPoint="apiPoint"
-      :item="item"
-    ></catalog-item>
+  <div class="loader-wrapper">
+    <base-loader v-if="isDataPending"></base-loader>
+    <div v-if="data && !data.length">
+      There is no items here.
+    </div>
+    <div class="row" :class="[view]">
+      <catalog-item
+        :class="[view === 'grid' ? 'col-6 col-lg-4' : 'col-12']"
+        v-for="item in data"
+        :isShopItem="apiPoint === 'shop'"
+        :apiPoint="apiPoint"
+        :item="item"
+      ></catalog-item>
+    </div>
   </div>
 </template>
 
@@ -15,7 +21,7 @@ import CatalogItem from "../CatalogItem";
 
 export default {
   name: "CatalogContent",
-  props: ["data", "apiPoint", "view"],
+  props: ["data", "apiPoint", "view", "isDataPending"],
   components: {
     CatalogItem
   }
@@ -23,6 +29,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.loader-wrapper {
+  position: relative;
+  min-height: 200px;
+}
 .list {
   /deep/ .catalog-item {
     &__card {

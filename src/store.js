@@ -8,6 +8,7 @@ Vue.use(Vuex);
 const state = {
   isAuth: false,
   customerId: null,
+  variableProduct: null,
   cartItems: []
 };
 
@@ -48,7 +49,8 @@ const mutations = {
   deleteItemFromCart(state, item) {
     const items = _.remove(
       state.cartItems,
-      cartItem => cartItem.id !== item.id
+      cartItem =>
+        cartItem.id !== item.id || cartItem.variation_id !== item.variation_id
     );
     state.cartItems = items;
   },
@@ -57,13 +59,15 @@ const mutations = {
   },
   incrementItemQuantity(state, item) {
     const itemIndex = state.cartItems.findIndex(
-      cartItem => cartItem.id === item.id
+      cartItem =>
+        cartItem.id === item.id && cartItem.variation_id === item.variation_id
     );
     state.cartItems[itemIndex].quantity++;
   },
   decrementItemQuantity(state, item) {
     const itemIndex = state.cartItems.findIndex(
-      cartItem => cartItem.id === item.id
+      cartItem =>
+        cartItem.id === item.id && cartItem.variation_id === item.variation_id
     );
     state.cartItems[itemIndex].quantity--;
   },
@@ -73,6 +77,12 @@ const mutations = {
     } else {
       state.isAuth = false;
     }
+  },
+  setVariableProduct(state, item) {
+    if (!item) {
+      state.variableProduct = null;
+    }
+    state.variableProduct = item;
   }
 };
 
@@ -84,7 +94,8 @@ const actions = {
     commit("incrementItemQuantity", id),
   decrementItemQuantity: ({ commit }, id) =>
     commit("decrementItemQuantity", id),
-  toggleIsAuth: ({ commit }) => commit("toggleIsAuth")
+  toggleIsAuth: ({ commit }) => commit("toggleIsAuth"),
+  setVariableProduct: ({ commit }, item) => commit("setVariableProduct", item)
 };
 
 const getters = {
@@ -93,7 +104,8 @@ const getters = {
   cartItemsQuantity: state =>
     state.cartItems.reduce((acc, item) => acc + item.quantity, 0),
   cartItemsPrice: state =>
-    state.cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0)
+    state.cartItems.reduce((acc, item) => acc + item.quantity * item.price, 0),
+  getVariableProduct: state => state.variableProduct
 };
 
 const store = new Vuex.Store({

@@ -28,13 +28,14 @@
       </div>
       <div v-else class="catalog-item__price">Price by request</div>
       <div class="catalog-item__buy">
-        <router-link
+        <button
           v-if="!isShopItem"
-          :to="'/' + apiPoint + '/' + item.id"
+          @click="$store.dispatch('setVariableProduct', item)"
+          type="button"
           class="btn btn-sm"
         >
           Choose dates
-        </router-link>
+        </button>
         <add-to-cart-btn v-if="isShopItem" :item="item"></add-to-cart-btn>
       </div>
     </div>
@@ -70,7 +71,7 @@ export default {
             this.imageUrl =
               response.data.media_details.sizes.shop_catalog.source_url;
           })
-          .catch(ex => console.log(ex));
+          .catch(() => (this.imageUrl = this.item.images[0].src));
       } else {
         this.imageUrl = this.item.images[0].src;
       }

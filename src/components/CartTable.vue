@@ -12,8 +12,13 @@
     <tbody>
       <tr v-for="(item, index) in $store.state.cartItems">
         <td>{{ index + 1 }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.price }}</td>
+        <td>
+          <span>{{ item.name }}</span
+          ><span v-if="item.variation_id" class="text-gray">{{
+            item.variation_id
+          }}</span>
+        </td>
+        <td>{{ item.price | currency }}</td>
         <td>{{ item.quantity }}</td>
         <td>
           <button
@@ -33,7 +38,7 @@
             <font-awesome-icon icon="plus"></font-awesome-icon>
           </button>
         </td>
-        <td>{{ item.price * item.quantity }}</td>
+        <td>{{ (item.price * item.quantity) | currency }}</td>
         <td>
           <button
             @click="handleButtonClick(item)"
@@ -54,7 +59,8 @@
       <td>{{ $store.getters.cartItemsQuantity }}</td>
       <td></td>
       <td>
-        {{ $store.getters.cartItemsPrice }} <span class="price">AUD</span>
+        {{ $store.getters.cartItemsPrice | currency }}
+        <span class="price">AUD</span>
       </td>
       <td></td>
     </tfoot>
@@ -85,6 +91,16 @@ export default {
     handleClearClick: function() {
       this.clearCart();
     }
+  },
+  filters: {
+    currency: function(val) {
+      if (!val) return "";
+      var gasPrice = new Intl.NumberFormat("en-AU", {
+        style: "decimal",
+        minimumFractionDigits: 2
+      });
+      return gasPrice.format(val);
+    }
   }
 };
 </script>
@@ -93,6 +109,11 @@ export default {
 .cart-table {
   width: 100%;
   border-collapse: collapse;
+  .text-gray {
+    font-size: 80%;
+    opacity: 0.5;
+    display: block;
+  }
   td,
   th {
     font-size: 18px;

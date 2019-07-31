@@ -1,5 +1,6 @@
 <template>
-  <div class="">
+  <div class="loader-wrapper">
+    <base-loader v-if="isDataPending"></base-loader>
     <table class="cart-table">
       <thead>
         <th>№</th>
@@ -39,12 +40,14 @@ import config from "@/config.json";
 export default {
   name: "AccountOrders",
   data: () => ({
-    orders: null
+    orders: null,
+    isDataPending: false
   }),
   props: ["customerId"],
   methods: {
     getUserOrders: function() {
       const token = localStorage.getItem("token");
+      this.isDataPending = true;
       axios
         .get(
           config.configApiEndpoint +
@@ -55,9 +58,13 @@ export default {
         .then(response => {
           if (response.status === 200) {
             this.orders = response.data;
+            this.isDataPending = false;
           }
         })
-        .catch(ex => console.log(ex.response));
+        .catch(ex => {
+          console.log(ex.response);
+          this.isDataPending = false;
+        });
     }
   },
   watch: {
@@ -77,6 +84,10 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables.scss";
+.loader-wrapper {
+  position: relative;
+  min-height: 200px;
+}
 .cart-table {
   width: 100%;
   border-collapse: collapse;

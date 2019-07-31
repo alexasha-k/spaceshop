@@ -13,12 +13,12 @@ export default {
     menuList: [
       {
         id: 1,
-        path: "account/info",
+        path: "info",
         name: "User info"
       },
       {
         id: 2,
-        path: "account/orders",
+        path: "orders",
         name: "Orders"
       }
     ]
@@ -42,7 +42,7 @@ export default {
       border-bottom: 1px solid $black5;
       transition: 0.15s ease;
       &:hover,
-      &.active {
+      &.router-link-exact-active {
         background-color: $black5;
         color: $added-color;
       }

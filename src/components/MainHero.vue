@@ -26,7 +26,7 @@ export default {
     backgroundImage: "url()",
     title: "Best tours",
     subtitle: "More than 100 tours with special discounts!",
-    linkText: "Go to tour",
+    linkText: "Go to tours",
     linkPath: "/tours"
   })
 };
