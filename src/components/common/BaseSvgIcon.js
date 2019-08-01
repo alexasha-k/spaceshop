@@ -13,7 +13,8 @@ import {
   faSignOutAlt,
   faCheck,
   faBars,
-  faTimes
+  faTimes,
+  faEdit
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faTwitter,
@@ -33,6 +34,7 @@ library.add(
   faCheck,
   faBars,
   faTimes,
+  faEdit,
   faFacebook,
   faInstagram,
   faTwitter

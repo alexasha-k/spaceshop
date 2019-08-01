@@ -2,7 +2,7 @@
   <div class="contacts-list">
     <div class="contacts-list__filters">
       <svg-contacts-filter
-        :data="groups"
+        :data="planetList"
         v-on:filter-group="setFilteredGroup"
       ></svg-contacts-filter>
     </div>
@@ -39,7 +39,53 @@ import SvgContactsFilter from "./SvgContactsFilter";
 export default {
   name: "ContactsList",
   data: () => ({
-    filteredGroup: null
+    filteredGroup: null,
+    planetList: [
+      {
+        locationGroup: 1,
+        name: "Earth"
+      },
+      {
+        locationGroup: 2,
+        name: "Moon"
+      },
+      {
+        locationGroup: 2,
+        name: "Mars"
+      },
+      {
+        locationGroup: 2,
+        name: "Europa"
+      },
+      {
+        locationGroup: 2,
+        name: "Pluto"
+      },
+      {
+        locationGroup: 2,
+        name: "Io"
+      },
+      {
+        locationGroup: 3,
+        name: "Proxima Centauri b"
+      },
+      {
+        locationGroup: 3,
+        name: "Luyten b"
+      },
+      {
+        locationGroup: 3,
+        name: "Tau Ceti e"
+      },
+      {
+        locationGroup: 3,
+        name: "Kaptein b"
+      },
+      {
+        locationGroup: 3,
+        name: "Ross 128 b"
+      }
+    ]
   }),
   methods: {
     setFilteredGroup: function(group) {
@@ -52,7 +98,7 @@ export default {
       return this.items.filter(item => item.planet === this.filteredGroup);
     }
   },
-  props: ["items", "groups"],
+  props: ["items"],
   components: { SvgContactsFilter }
 };
 </script>

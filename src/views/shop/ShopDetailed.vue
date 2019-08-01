@@ -6,14 +6,14 @@
 
 <script>
 import axios from "axios";
+import config from "@/config.json";
 import CatalogCard from "../../components/catalog-common/CatalogCard";
 
 export default {
   name: "ShopDetailed",
   data: vm => ({
     item: null,
-    apiEndPoint:
-      "https://spaceshop.alexashaweb.com/wordpress/wp-json/wc/v1/products"
+    apiEndPoint: config.configApiEndpoint + "/wc/v1/products"
   }),
   methods: {
     getProductData: function() {

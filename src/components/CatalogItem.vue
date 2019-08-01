@@ -12,7 +12,11 @@
         </transition>
       </div>
       <div class="catalog-item__info">
+        <span v-if="apiPoint === 'flights'" class="catalog-item__title">{{
+          item.name
+        }}</span>
         <router-link
+          v-else
           class="catalog-item__title"
           :to="'/' + apiPoint + '/' + item.id"
           >{{ item.name }}</router-link
@@ -28,15 +32,8 @@
       </div>
       <div v-else class="catalog-item__price">Price by request</div>
       <div class="catalog-item__buy">
-        <button
-          v-if="!isShopItem"
-          @click="$store.dispatch('setVariableProduct', item)"
-          type="button"
-          class="btn btn-sm"
-        >
-          Choose dates
-        </button>
         <add-to-cart-btn v-if="isShopItem" :item="item"></add-to-cart-btn>
+        <choose-dates-btn v-else :item="item" class="btn-sm"></choose-dates-btn>
       </div>
     </div>
   </div>
@@ -46,6 +43,7 @@
 import axios from "axios";
 import config from "@/config.json";
 import AddToCartBtn from "./common/AddToCartBtn";
+import ChooseDatesBtn from "./common/ChooseDatesBtn";
 
 export default {
   name: "CatalogItem",
@@ -99,7 +97,7 @@ export default {
       await this.getResizedImage();
     }
   },
-  components: { AddToCartBtn }
+  components: { AddToCartBtn, ChooseDatesBtn }
 };
 </script>
 
@@ -143,7 +141,7 @@ export default {
     box-decoration-break: clone;
     white-space: pre-wrap;
     padding: 1px 5px;
-    &:hover {
+    &[href]:hover {
       background-color: $added-color;
       text-decoration: none;
     }

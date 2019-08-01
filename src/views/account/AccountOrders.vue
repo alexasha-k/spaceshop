@@ -11,7 +11,7 @@
       </thead>
       <tbody>
         <template v-for="item in orders">
-          <tr>
+          <tr :class="getStatusClass(item.status)">
             <td colspan="4">Order № {{ item.number }}</td>
             <td>Status: {{ item.status }}</td>
           </tr>
@@ -65,6 +65,18 @@ export default {
           console.log(ex.response);
           this.isDataPending = false;
         });
+    },
+    getStatusClass: function(status) {
+      switch (status) {
+        case "processing":
+          return "green-badge";
+        case "completed":
+          return "gray-badge";
+        case "on-hold":
+          return "yellow-badge";
+        default:
+          return "gray-badge";
+      }
     }
   },
   watch: {

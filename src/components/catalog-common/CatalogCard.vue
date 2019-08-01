@@ -16,7 +16,8 @@
           <div class="catalog-card__price">
             Price: {{ item.price }} <span class="price">AUD</span>
           </div>
-          <add-to-cart-btn :item="item"></add-to-cart-btn>
+          <add-to-cart-btn v-if="isShopItem" :item="item"></add-to-cart-btn>
+          <choose-dates-btn v-else :item="item"></choose-dates-btn>
         </div>
       </div>
     </div>
@@ -27,6 +28,7 @@
 import axios from "axios";
 import config from "@/config.json";
 import AddToCartBtn from "../../components/common/AddToCartBtn";
+import ChooseDatesBtn from "../../components/common/ChooseDatesBtn";
 
 export default {
   name: "CatalogCard",
@@ -34,7 +36,11 @@ export default {
     imageUrl: null
   }),
   props: ["item"],
-  components: { AddToCartBtn },
+  computed: {
+    isShopItem: function() {
+      return Boolean(this.item.categories.find(el => el.id === 17));
+    }
+  },
   methods: {
     getResizedImage: function() {
       const imageId = this.item.images[0].id;
@@ -58,7 +64,8 @@ export default {
     if (this.item) {
       await this.getResizedImage();
     }
-  }
+  },
+  components: { AddToCartBtn, ChooseDatesBtn }
 };
 </script>
 

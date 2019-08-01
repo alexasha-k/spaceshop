@@ -1,41 +1,35 @@
 <template>
-  <div class="loader-wrapper">
+  <div class="loader-wrapper mb-5">
     <base-loader v-if="isDataPending"></base-loader>
     <div class="row">
       <div class="col-6">
         <dl v-if="info">
           <dt>Username</dt>
-          <dl>{{ info.username }}</dl>
+          <dd>{{ info.username }}</dd>
           <dt>Email</dt>
-          <dl>{{ info.email }}</dl>
+          <dd>{{ info.email }}</dd>
           <dt>First name</dt>
-          <dl>{{ info.first_name }}</dl>
+          <edit-user-data
+            :customerId="customerId"
+            paramName="first_name"
+            :fieldData="info.first_name"
+          ></edit-user-data>
           <dt>Last name</dt>
-          <dl>{{ info.last_name }}</dl>
+          <edit-user-data
+            :customerId="customerId"
+            paramName="last_name"
+            :fieldData="info.last_name"
+          ></edit-user-data>
         </dl>
       </div>
+
       <div class="col-6">
-        <h3>Shipping address</h3>
-        <dl v-if="info && info.shipping">
-          <dt>First name</dt>
-          <dl>{{ info.shipping.first_name }}</dl>
-          <dt>Last name</dt>
-          <dl>{{ info.shipping.last_name }}</dl>
-          <dt>Company</dt>
-          <dl>{{ info.shipping.company }}</dl>
-          <dt>Address line 1</dt>
-          <dl>{{ info.shipping.address_1 }}</dl>
-          <dt>Address line 2</dt>
-          <dl>{{ info.shipping.address_3 }}</dl>
-          <dt>City</dt>
-          <dl>{{ info.shipping.city }}</dl>
-          <dt>Postcode</dt>
-          <dl>{{ info.shipping.postcode }}</dl>
-          <dt>Country</dt>
-          <dl>{{ info.shipping.country }}</dl>
-          <dt>State</dt>
-          <dl>{{ info.shipping.state }}</dl>
-        </dl>
+        <template v-if="info && info.shipping">
+          <edit-shipping-data
+            :customerId="customerId"
+            :shippingData="info.shipping"
+          ></edit-shipping-data>
+        </template>
       </div>
     </div>
   </div>
@@ -44,6 +38,8 @@
 <script>
 import axios from "axios";
 import config from "@/config.json";
+import EditUserData from "../../components/common/EditUserData";
+import EditShippingData from "../../components/common/EditShippingData";
 
 export default {
   name: "AccountInfo",
@@ -52,6 +48,11 @@ export default {
     isDataPending: false
   }),
   props: ["customerId"],
+  computed: {
+    updatedInfo: function() {
+      return { ...this.info };
+    }
+  },
   methods: {
     getUserData: function() {
       const token = localStorage.getItem("token");
@@ -82,7 +83,8 @@ export default {
   },
   mounted() {
     this.getUserData();
-  }
+  },
+  components: { EditUserData, EditShippingData }
 };
 </script>
 

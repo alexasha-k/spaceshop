@@ -60,7 +60,7 @@ export default {
             break;
           default:
             radius = 200;
-            count = 4;
+            count = 5;
         }
         const angle = ((2 * Math.PI) / count) * key + Math.PI / id;
         x = Math.cos(angle) * radius;
