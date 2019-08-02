@@ -66,7 +66,7 @@ export default {
     items: null,
     currentItem: null,
     isDataPending: false,
-    pageNumbers: 5,
+    pageNumbers: 1,
     currentPage: 1,
     searchText: "",
     catalogViews: ["grid", "list", "table"],
