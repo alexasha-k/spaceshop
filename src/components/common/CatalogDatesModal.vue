@@ -1,32 +1,38 @@
 <template>
   <div class="catalog-dates">
-    <div class="catalog-dates__label">Choose dates</div>
-    <div
-      v-if="$store.state.variableProduct.variations.length"
-      class="catalog-dates__wrapper"
-    >
-      <div
-        v-for="item in $store.state.variableProduct.variations"
-        class="catalog-dates__btn"
-      >
-        <label>
-          <input type="radio" v-model="productVariationId" :value="item.id" />
-          <span>{{ item.attributes[0].option }}</span>
-        </label>
-      </div>
+    <div v-if="isProductAdded">
+      Product {{ $store.state.variableProduct.name }} has been added to your
+      cart!
     </div>
     <div v-else>
-      There is no available dates here
-    </div>
-    <div class="row no-gutters justify-content-end">
-      <button
-        @click="handleBuyClick"
+      <div class="catalog-dates__label">Choose dates</div>
+      <div
         v-if="$store.state.variableProduct.variations.length"
-        type="button"
-        class="btn"
+        class="catalog-dates__wrapper"
       >
-        Add to cart
-      </button>
+        <div
+          v-for="item in $store.state.variableProduct.variations"
+          class="catalog-dates__btn"
+        >
+          <label>
+            <input type="radio" v-model="productVariationId" :value="item.id" />
+            <span>{{ item.attributes[0].option }}</span>
+          </label>
+        </div>
+      </div>
+      <div v-else>
+        There is no available dates here
+      </div>
+      <div class="row no-gutters justify-content-end">
+        <button
+          @click="handleBuyClick"
+          v-if="$store.state.variableProduct.variations.length"
+          type="button"
+          class="btn"
+        >
+          Add to cart
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +41,8 @@
 export default {
   name: "CatalogDatesModal",
   data: () => ({
-    productVariationId: ""
+    productVariationId: "",
+    isProductAdded: false
   }),
   methods: {
     handleBuyClick: function() {
@@ -54,6 +61,7 @@ export default {
       } else {
         this.$store.dispatch("addItemToCart", selectedItem);
       }
+      this.isProductAdded = true;
     }
   }
 };
@@ -74,6 +82,8 @@ export default {
   &__btn {
     flex-grow: 1;
     flex-basis: 80px;
+    border-right: 1px solid $inv-color-light;
+    border-bottom: 1px solid $inv-color-light;
     label {
       display: block;
       margin-bottom: 0;
@@ -96,9 +106,6 @@ export default {
       outline: 2px solid $added-color;
       outline-offset: -2px;
     }
-  }
-  &__btn:not(:last-child) {
-    border-right: 1px solid $inv-color-light;
   }
 }
 </style>

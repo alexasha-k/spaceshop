@@ -14,7 +14,8 @@ export default {
   data: () => ({
     travel: null,
     apiEndPoint:
-      config.configApiEndpoint + "/wp/v2/posts?categories=35&order=asc"
+      config.configApiEndpoint +
+      "/wp/v2/posts?categories=35&per_page=20&order=asc"
   }),
   methods: {
     getData: function() {

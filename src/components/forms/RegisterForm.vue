@@ -1,21 +1,33 @@
 <template>
-  <div>
-    <div v-if="errors && errors.registerError" class="form-errors">
-      {{ errors.registerError }}
-    </div>
-    <div v-if="$store.state.isAuth" class="mt-5">
+  <div class="form loader-wrapper">
+    <base-loader v-if="isDataPending"></base-loader>
+    <base-notification
+      v-if="$store.state.isAuth"
+      notificationType="info"
+      class="mt-5"
+    >
       You are registered and authorised!
-    </div>
-    <div class="form-errors" v-if="errors">
-      <div v-if="errors.empty" class="">
-        Fields
-        <span v-for="(value, name) in errors.empty">{{ name }}, </span>
-        are required;
+    </base-notification>
+    <base-notification
+      v-if="errors && errors.registerError"
+      notificationType="danger"
+      class="mb-4"
+    >
+      {{ errors.registerError }}
+    </base-notification>
+    <base-notification
+      v-if="errors && !errors.registerError"
+      notificationType="danger"
+      class="mb-4"
+    >
+      <div v-if="errors.empty">
+        You missed required fields:
+        <div v-for="(value, name) in errors.empty">{{ value }}</div>
       </div>
-      <div v-if="errors.other" class="">
+      <div v-if="errors.other && !errors.empty">
         <div v-for="(value, name) in errors.other">{{ value }}</div>
       </div>
-    </div>
+    </base-notification>
     <form method="post" @submit="checkForm" v-if="!$store.state.isAuth">
       <div v-for="item in fieldsList" class="form-group">
         <label>
@@ -48,6 +60,7 @@ export default {
       password: ""
     },
     errors: null,
+    isDataPending: false,
     fieldsList: [
       {
         name: "username",
@@ -76,7 +89,7 @@ export default {
     joiValidationSchemaObject() {
       return Joi.object({
         username: Joi.string()
-          .alphanum()
+          .regex(/[0-9a-zA-Z-']/, "letters, numbers, -")
           .required()
           .label("Username"),
         email: Joi.string()
@@ -98,6 +111,7 @@ export default {
       );
       if (!error) {
         this.errors = null;
+        this.isDataPending = true;
         try {
           const result = await registerService.registerUser(this.form);
           const authForm = {
@@ -107,6 +121,8 @@ export default {
           await authService.authUser(authForm);
         } catch (e) {
           this.errors = { registerError: e };
+        } finally {
+          this.isDataPending = false;
         }
       } else {
         const errors = { empty: {}, other: {} };

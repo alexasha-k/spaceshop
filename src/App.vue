@@ -7,7 +7,9 @@
       </transition>
     </main>
     <main-footer></main-footer>
-    <base-modal v-if="$store.state.variableProduct"></base-modal>
+    <transition name="fade-in">
+      <base-modal v-if="$store.state.variableProduct"></base-modal>
+    </transition>
   </div>
 </template>
 

@@ -47,7 +47,9 @@ export default {
   methods: {
     getCatalogData: function() {
       axios
-        .get(this.apiEndPoint + "?parent=" + this.parentCategory)
+        .get(
+          this.apiEndPoint + "?hide_empty=true&parent=" + this.parentCategory
+        )
         .then(response => (this.menuList = response.data));
     }
   },

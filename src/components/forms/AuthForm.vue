@@ -1,21 +1,34 @@
 <template>
-  <div>
-    <div v-if="errors && errors.authError" class="form-errors">
-      {{ errors.authError }}
-    </div>
-    <div v-if="$store.state.isAuth" class="mt-5">
+  <div class="form loader-wrapper">
+    <base-loader v-if="isDataPending"></base-loader>
+    <base-notification
+      notificationType="info"
+      v-if="$store.state.isAuth"
+      class="mt-5"
+    >
       You are authorised!
-    </div>
-    <div class="form-errors" v-if="errors">
-      <div v-if="errors.empty" class="">
-        Fields
-        <span v-for="(value, name) in errors.empty">{{ name }}, </span>
-        are required;
+    </base-notification>
+
+    <base-notification
+      notificationType="danger"
+      v-if="errors && errors.authError"
+      class="mb-4"
+    >
+      {{ errors.authError }}
+    </base-notification>
+    <base-notification
+      notificationType="danger"
+      class="mb-4"
+      v-if="errors && !errors.authError"
+    >
+      <div v-if="errors.empty">
+        You missed required fields:
+        <div v-for="(value, name) in errors.empty">{{ value }}</div>
       </div>
-      <div v-if="errors.other" class="">
+      <div v-if="!errors.empty && errors.other">
         <div v-for="(value, name) in errors.other">{{ value }}</div>
       </div>
-    </div>
+    </base-notification>
     <div v-if="!$store.state.isAuth">
       <form method="post" @submit="checkForm">
         <div v-for="item in fieldsList" class="form-group">
@@ -48,6 +61,7 @@ export default {
       password: ""
     },
     errors: null,
+    isDataPending: false,
     fieldsList: [
       {
         name: "username",
@@ -69,7 +83,7 @@ export default {
     joiValidationSchemaObject() {
       return Joi.object({
         username: Joi.string()
-          .alphanum()
+          .regex(/[0-9a-zA-Z-']/, "letters, numbers, -")
           .required()
           .label("Username"),
         password: Joi.string()
@@ -87,12 +101,15 @@ export default {
         { abortEarly: false }
       );
       if (!error) {
+        this.isDataPending = true;
         this.errors = null;
         try {
           await authService.authUser(this.form);
           this.$router.push("/account");
         } catch (e) {
           this.errors = { authError: e };
+        } finally {
+          this.isDataPending = false;
         }
       } else {
         const errors = { empty: {}, other: {} };

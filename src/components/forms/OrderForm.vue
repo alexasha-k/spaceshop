@@ -1,29 +1,23 @@
 <template>
-  <div class="order-form">
-    <div v-if="errors && errors.orderError" class="form-errors">
+  <div class="form loader-wrapper">
+    <base-loader v-if="isDataPending"></base-loader>
+    <base-notification
+      class="mb-4"
+      notificationType="danger"
+      v-if="errors && errors.orderError"
+    >
       {{ errors.orderError }}
-    </div>
-    <div class="form-errors" v-if="errors">
-      <div v-if="errors.empty" class="">
-        Fields
-        <span v-for="(value, name) in errors.empty">{{ name }}, </span>
-        are required;
+    </base-notification>
+    <base-notification notificationType="danger" v-if="errors" class="mb-4">
+      <div v-if="errors.empty">
+        You missed required fields:
+        <div v-for="(value, name) in errors.empty">{{ value }}</div>
       </div>
-      <div v-if="errors.other" class="">
+      <div v-if="!errors.empty && errors.other" class="">
         <div v-for="(value, name) in errors.other">{{ value }}</div>
       </div>
-    </div>
+    </base-notification>
     <form @submit="checkForm">
-      <div class="form-errors" v-if="errors">
-        <div v-if="errors.empty" class="">
-          Fields
-          <span v-for="(value, name) in errors.empty">{{ name }}, </span>
-          are required;
-        </div>
-        <div v-if="errors.other" class="">
-          <div v-for="(value, name) in errors.other">{{ value }}</div>
-        </div>
-      </div>
       <div v-for="item in fieldsList" class="form-group">
         <label>
           <span class="form-group__label"
@@ -36,7 +30,14 @@
       <div class="transcript">
         <span class="star">*</span> - required fields
       </div>
-      <button type="submit" name="button" class="btn mt-3">Submit</button>
+      <button
+        type="submit"
+        :disabled="isDataPending"
+        name="button"
+        class="btn mt-3"
+      >
+        Submit
+      </button>
     </form>
   </div>
 </template>
@@ -61,7 +62,8 @@ export default {
       country: "",
       postcode: ""
     },
-    errors: {},
+    isDataPending: false,
+    errors: null,
     customerId: null,
     fieldsList: [
       {
@@ -119,27 +121,36 @@ export default {
     joiValidationSchemaObject() {
       return Joi.object({
         first_name: Joi.string()
-          .alphanum()
+          .regex(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
+          .trim()
           .required()
           .label("First name"),
         last_name: Joi.string()
-          .alphanum()
+          .regex(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)
+          .trim()
+          .allow("")
+          .optional()
           .label("Last name"),
         phone: Joi.number()
           .required()
           .label("Phone number"),
         address_1: Joi.string()
+          .regex(/[0-9a-zA-Z -/']/)
+          .trim()
           .required()
           .label("Address"),
         city: Joi.string()
-          .alphanum()
+          .regex(/[a-zA-Z]{2,}/)
+          .trim()
           .required()
           .label("City"),
         country: Joi.string()
-          .alphanum()
+          .trim()
+          .regex(/[a-zA-Z]{2,}/)
           .required()
           .label("Country"),
         postcode: Joi.string()
+          .trim()
           .alphanum()
           .min(4)
           .max(6)
@@ -157,6 +168,7 @@ export default {
         { abortEarly: false }
       );
       if (!error) {
+        this.isDataPending = true;
         const line_items = this.$store.state.cartItems.map(item => ({
           product_id: item.id,
           quantity: item.quantity,
@@ -170,9 +182,11 @@ export default {
         try {
           const result = await orderService.createOrder(form);
           store.dispatch("clearCart");
+          this.isDataPending = false;
           return this.$router.push("/cart/confirmation");
         } catch (e) {
           this.errors = { orderError: e };
+          this.isDataPending = false;
         }
       } else {
         const errors = { empty: {}, other: {} };
@@ -189,24 +203,24 @@ export default {
   },
   mounted: function() {
     const token = localStorage.getItem("token");
-    axios
-      .get(
-        "https://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/users/me",
-        { params: {}, headers: { Authorization: "Bearer " + token } }
-      )
-      .then(response => {
-        if (response.status === 200) {
-          this.customerId = response.data.id;
-        }
-      })
-      .catch(ex => console.log(ex.response));
+    if (token) {
+      axios
+        .get(config.configApiEndpoint + "/wp/v2/users/me", {
+          params: {},
+          headers: { Authorization: "Bearer " + token }
+        })
+        .then(response => {
+          if (response.status === 200) {
+            this.customerId = response.data.id;
+          }
+        })
+        .catch(ex => console.log(ex.response));
+    } else {
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
 @import "@/assets/scss/_variables.scss";
-.order-form {
-  max-width: 700px;
-}
 </style>

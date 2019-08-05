@@ -14,7 +14,8 @@ import {
   faCheck,
   faBars,
   faTimes,
-  faEdit
+  faEdit,
+  faExclamationCircle
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faTwitter,
@@ -35,6 +36,7 @@ library.add(
   faBars,
   faTimes,
   faEdit,
+  faExclamationCircle,
   faFacebook,
   faInstagram,
   faTwitter

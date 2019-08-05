@@ -1,7 +1,10 @@
 <template>
   <div class="loader-wrapper">
     <base-loader v-if="isDataPending"></base-loader>
-    <table class="cart-table">
+    <base-notification v-if="orders && !orders.length" notificationType="info">
+      You don't have orders for now.
+    </base-notification>
+    <table v-else class="cart-table">
       <thead>
         <th>№</th>
         <th>Title</th>

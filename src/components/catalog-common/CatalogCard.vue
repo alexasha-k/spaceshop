@@ -21,6 +21,15 @@
         </div>
       </div>
     </div>
+    <div class="d-none d-lg-block mt-4" v-if="isMars">
+      <iframe
+        src="https://mars.nasa.gov/layout/embed/image/insightweather/"
+        width="800"
+        height="530"
+        scrolling="no"
+        frameborder="0"
+      ></iframe>
+    </div>
   </div>
 </template>
 
@@ -39,6 +48,9 @@ export default {
   computed: {
     isShopItem: function() {
       return Boolean(this.item.categories.find(el => el.id === 17));
+    },
+    isMars: function() {
+      return Boolean(this.item.categories.find(el => el.id === 38));
     }
   },
   methods: {

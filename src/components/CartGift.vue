@@ -1,8 +1,13 @@
 <template>
   <div class="cart-gift mt-4">
     <div class="cart-gift__pretext">
-      Congratulations! You've got a gift card. Please, choose design and text!
-      <div class="form-group form-group--checkbox">
+      <base-notification notificationType="success">
+        <span
+          >Congratulations! You can got a gift card. Please, choose design and
+          text!</span
+        >
+      </base-notification>
+      <div class="form-group form-group--checkbox mt-3 mb-3">
         <label>
           <input type="checkbox" v-model="isAgreeForGift" />
           <span class="form-group__checkmark"
@@ -21,15 +26,30 @@
         />
         <div class="gift-card__text">
           <label class="gift-card__first-line">
-            <input type="text" v-model="cardTextFirstLine" />
+            <input
+              type="text"
+              v-model="cardTextFirstLine"
+              placeholder="Write your text here"
+            />
           </label>
           <label class="gift-card__second-line">
-            <input type="text" v-model="cardTextSecondLine" />
+            <input
+              type="text"
+              v-model="cardTextSecondLine"
+              placeholder="...and here"
+            />
           </label>
         </div>
       </div>
+      <button
+        v-if="cardTextFirstLine && cardTextSecondLine"
+        type="button"
+        v-on:click="createPDF"
+        class="btn mt-4"
+      >
+        Load
+      </button>
     </div>
-    <button type="button" v-on:click="createPDF" class="btn">Load</button>
   </div>
 </template>
 
@@ -41,8 +61,8 @@ export default {
   name: "CartGift",
   data: () => ({
     isAgreeForGift: false,
-    cardTextFirstLine: "Write your text here",
-    cardTextSecondLine: "...and here",
+    cardTextFirstLine: "",
+    cardTextSecondLine: "",
     giftImageUrl: null
   }),
   methods: {
@@ -95,6 +115,17 @@ export default {
     color: white;
     padding: 0;
     font-size: 42px;
+    &::-webkit-input-placeholder {
+      color: white;
+    }
+
+    &:-ms-input-placeholder {
+      color: white;
+    }
+
+    &::placeholder {
+      color: white;
+    }
   }
   &__first-line {
     input {

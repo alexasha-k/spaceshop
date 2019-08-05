@@ -2,9 +2,15 @@
   <nav class="cart-breadcrumbs mb-4">
     <div class="row">
       <div v-for="item in stepList" class="col-auto cart-breadcrumbs__item">
-        <router-link :to="item.path" :class="{ filled: item.isFilled }">
+        <span
+          class="fake-link"
+          :class="{
+            filled: item.isFilled,
+            inactive: !$store.state.cartItems.length
+          }"
+        >
           <span>{{ item.title }}</span>
-        </router-link>
+        </span>
       </div>
     </div>
   </nav>
@@ -25,7 +31,7 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/scss/_variables.scss";
 .cart-breadcrumbs {
-  /deep/ a {
+  .fake-link {
     display: inline-block;
     padding-right: 80px;
     position: relative;
@@ -65,10 +71,14 @@ export default {
         border-color: $inv-color-light;
       }
     }
+    &.inactive {
+      pointer-events: none;
+      opacity: 0.8;
+    }
   }
   &__item {
     &:last-child {
-      a::after {
+      .fake-link::after {
         display: none;
       }
     }

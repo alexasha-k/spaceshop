@@ -10,12 +10,14 @@
           <dd>{{ info.email }}</dd>
           <dt>First name</dt>
           <edit-user-data
+            v-on:update-data="updateUserData"
             :customerId="customerId"
             paramName="first_name"
             :fieldData="info.first_name"
           ></edit-user-data>
           <dt>Last name</dt>
           <edit-user-data
+            v-on:update-data="updateUserData"
             :customerId="customerId"
             paramName="last_name"
             :fieldData="info.last_name"
@@ -26,6 +28,7 @@
       <div class="col-6">
         <template v-if="info && info.shipping">
           <edit-shipping-data
+            v-on:update-data="updateUserData"
             :customerId="customerId"
             :shippingData="info.shipping"
           ></edit-shipping-data>
@@ -72,6 +75,9 @@ export default {
           console.log(ex.response);
           this.isDataPending = false;
         });
+    },
+    updateUserData: function(newVal) {
+      this.info = Object.assign(this.info, newVal);
     }
   },
   watch: {

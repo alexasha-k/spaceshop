@@ -1,5 +1,5 @@
 <template>
-  <dd v-if="fieldData">
+  <dd>
     <div v-if="isEdit">
       <form @submit="updateUserData">
         <input :disabled="isDataPending" type="text" v-model="newVal" />
@@ -16,7 +16,7 @@
         </button>
       </form>
     </div>
-    <span v-else>{{ newVal }}</span>
+    <span v-else>{{ fieldData }}</span>
     <button
       v-if="!isEdit"
       @click="editField"
@@ -58,10 +58,9 @@ export default {
         )
         .then(response => {
           if (response.status === 200) {
-            console.log(response.data);
-            // this.info = response.data;
             this.isEdit = false;
             this.isDataPending = false;
+            this.$emit("update-data", data);
           }
         })
         .catch(ex => {
