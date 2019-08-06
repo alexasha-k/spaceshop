@@ -19,11 +19,7 @@
     </div>
     <div v-if="isAgreeForGift" class="cart-gift__selection">
       <div class="gift-card">
-        <img
-          src="/nasa-Q1p7bh3SHj8-unsplash-768x511.jpg"
-          ref="giftCard"
-          alt="Gift Card"
-        />
+        <img :src="giftImageUrl" ref="giftCard" alt="Gift Card" />
         <div class="gift-card__text">
           <label class="gift-card__first-line">
             <input
@@ -41,14 +37,22 @@
           </label>
         </div>
       </div>
+      <input type="file" v-on:change="loadUserImage" />
       <button
         v-if="cardTextFirstLine && cardTextSecondLine"
         type="button"
         v-on:click="createPDF"
         class="btn mt-4"
       >
-        Load
+        Download
       </button>
+      <base-notification
+        v-if="errorMessage"
+        notificationType="danger"
+        class="mt-4"
+      >
+        {{ errorMessage }}
+      </base-notification>
     </div>
   </div>
 </template>
@@ -60,10 +64,11 @@ import * as html2canvas from "html2canvas";
 export default {
   name: "CartGift",
   data: () => ({
-    isAgreeForGift: false,
+    isAgreeForGift: true,
     cardTextFirstLine: "",
     cardTextSecondLine: "",
-    giftImageUrl: null
+    giftImageUrl: "/nasa-Q1p7bh3SHj8-unsplash-768x511.jpg",
+    errorMessage: ""
   }),
   methods: {
     createPDF: function() {
@@ -73,7 +78,7 @@ export default {
         unit: "px",
         format: [574, 380]
       });
-      doc.addImage(el, "JPEG", 0, 0);
+      doc.addImage(el, "JPEG", 0, 0, 500, 335);
       doc
         .setTextColor("#FFFFFF")
         .setFontSize(32)
@@ -82,6 +87,47 @@ export default {
         .setFontStyle("italic")
         .text(this.cardTextSecondLine, 32, 240);
       doc.save();
+    },
+    loadUserImage: function(event) {
+      this.errorMessage = "";
+      const FILE_TYPES = ["jpg", "jpeg", "png", "webp"];
+      const file = event.target.files[0];
+      if (!file) return;
+      const matches = FILE_TYPES.some(it => file.name.endsWith(it));
+
+      if (matches) {
+        const reader = new FileReader();
+        reader.onload = readerEvent => {
+          const image = this.$refs.giftCard;
+          image.onload = imageEvent => {
+            const cardSizes = { width: 768, height: 511 };
+            const imageRatio = (cardSizes.height / cardSizes.width).toFixed(
+              2,
+              10
+            );
+            let width = image.width;
+            let height = image.height;
+            if (width < cardSizes.width || height < cardSizes.height) {
+              return (this.errorMessage =
+                "Your image is too small. Minimum image sizes are 768x511");
+            }
+            if (width * imageRatio !== height) {
+              if (width * imageRatio > height) {
+                width = Math.floor(width * ((height / width) * imageRatio));
+              } else {
+                height = Math.floor(width * imageRatio);
+              }
+            }
+
+            console.log(width, height);
+          };
+          this.giftImageUrl = readerEvent.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.errorMessage =
+          "Unsupported file format, please, choose .png or .jpg image";
+      }
     }
   }
 };
@@ -97,6 +143,7 @@ export default {
 .gift-card {
   position: relative;
   img {
+    max-width: 768px;
   }
   &__text {
     position: absolute;

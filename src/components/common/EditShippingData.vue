@@ -147,7 +147,6 @@ export default {
     closeEditField() {
       this.isEdit = false;
       this.newVal = this.shippingData;
-      console.log(this.newVal, this.shippingData);
     }
   },
   mounted() {}
