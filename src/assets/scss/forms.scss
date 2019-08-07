@@ -50,6 +50,8 @@
   color: $inv-color;
 }
 
-.form-errors {
-  color: $inv-color;
+.file-input {
+  input {
+    display: none;
+  }
 }
