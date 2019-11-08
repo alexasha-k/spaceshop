@@ -3,7 +3,6 @@
     <div class="catalog-item__card">
       <div class="catalog-item__actions">
         <div class="favorite"></div>
-        <!-- <div class="raiting">{{ item.average_rating }}</div> -->
       </div>
       <div class="catalog-item__image">
         <transition name="fade-in">
@@ -21,7 +20,6 @@
           :to="'/' + apiPoint + '/' + item.id"
           >{{ item.name }}</router-link
         >
-        <div class="catalog-item__desc" v-html="item.short_description"></div>
       </div>
       <div v-if="item.price" class="catalog-item__price">
         <span v-if="item.sale_price" class="discount"
@@ -116,6 +114,9 @@ export default {
   position: relative;
   margin-bottom: 20px;
   &__card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   &__actions {
     position: absolute;
@@ -146,6 +147,11 @@ export default {
       text-decoration: none;
     }
   }
+  &__info {
+    margin-bottom: 12px;
+  }
+  &__buy {
+  }
   &__desc {
     margin-top: 12px;
     margin-bottom: 12px;
@@ -157,6 +163,7 @@ export default {
     -webkit-box-orient: vertical;
   }
   &__price {
+    margin-top: auto;
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 24px;

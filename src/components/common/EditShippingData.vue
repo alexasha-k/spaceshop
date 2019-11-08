@@ -113,6 +113,27 @@ export default {
     newVal: { ...vm.shippingData }
   }),
   props: ["shippingData", "customerId"],
+  computed: {
+    joiValidationSchemaObject() {
+      return Joi.object({
+        first_name: Joi.string()
+          .regex(/[A-Za-z0-9]/)
+          .trim()
+          .required()
+          .label("First name"),
+        last_name: Joi.string()
+          .regex(/[A-Za-z0-9]/)
+          .trim()
+          .required()
+          .label("Last name"),
+        last_name: Joi.string()
+          .regex(/[A-Za-z0-9]/)
+          .trim()
+          .required()
+          .label("Last name")
+      });
+    }
+  },
   methods: {
     updateUserData: function(event) {
       event.preventDefault();

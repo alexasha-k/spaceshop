@@ -19,7 +19,7 @@
     </div>
     <div v-if="isAgreeForGift" class="cart-gift__selection">
       <div class="row">
-        <div class="col-8">
+        <div class="col-xl-8 mb-3">
           <div class="gift-card" :style="{ color: textColor }">
             <img :src="giftRawImageUrl" v-on:load="loadImage" hidden alt="" />
             <img :src="giftImageUrl" ref="giftCard" alt="Gift Card" />
@@ -41,7 +41,7 @@
             </div>
           </div>
         </div>
-        <div class="col-4">
+        <div class="col-xl-4">
           <label class="file-input mb-5">
             <span class="btn">Choose image</span>
             <input type="file" v-on:change="loadUserImage" />
@@ -122,7 +122,7 @@ export default {
     },
     loadImage: function(event) {
       const image = event.target;
-      const cardSizes = { width: 500, height: 335 };
+      const cardSizes = { width: 730, height: 486 };
       const imageRatio = (cardSizes.height / cardSizes.width).toFixed(2, 10);
       let width = image.width;
       let height = image.height;
@@ -228,6 +228,12 @@ export default {
   }
   &__btn:not(:first-child) {
     border-right: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .cart-gift {
+    display: none;
   }
 }
 </style>

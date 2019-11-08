@@ -91,12 +91,16 @@ export default {
         username: Joi.string()
           .regex(/[0-9a-zA-Z-']/, "letters, numbers, -")
           .required()
+          .trim()
           .label("Username"),
         email: Joi.string()
           .email({ minDomainSegments: 2 })
+          .required()
+          .trim()
           .label("Email"),
         password: Joi.string()
           .required()
+          .trim()
           .label("Password")
       });
     }

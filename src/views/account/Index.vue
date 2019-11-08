@@ -32,10 +32,10 @@ export default {
     getUserId: function() {
       const token = localStorage.getItem("token");
       return axios
-        .get(
-          "https://spaceshop.alexashaweb.com/wordpress/wp-json/wp/v2/users/me",
-          { params: {}, headers: { Authorization: "Bearer " + token } }
-        )
+        .get(config.configApiEndpoint + "/wp/v2/users/me", {
+          params: {},
+          headers: { Authorization: "Bearer " + token }
+        })
         .then(response => {
           if (response.status === 200) {
             this.customerId = response.data.id;

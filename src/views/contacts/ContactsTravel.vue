@@ -12,15 +12,17 @@ import ContactsList from "../../components/contacts/ContactsList";
 export default {
   name: "ContactsTravel",
   data: () => ({
-    travel: null,
-    apiEndPoint:
-      config.configApiEndpoint +
-      "/wp/v2/posts?categories=35&per_page=20&order=asc"
+    travel: null
   }),
   methods: {
     getData: function() {
+      const params = {
+        categories: 35,
+        per_page: 20,
+        order: "asc"
+      };
       axios
-        .get(this.apiEndPoint)
+        .get(config.configApiEndpoint + "/wp/v2/posts", { params })
         .then(response => (this.travel = response.data));
     }
   },

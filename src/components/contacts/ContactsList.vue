@@ -15,14 +15,14 @@
           <h4>{{ item.title.rendered }}</h4>
           <dl>
             <dt>Planet</dt>
-            <dl>{{ item.planet }}</dl>
+            <dl>{{ item.acf.planet }}</dl>
             <dt>Address</dt>
-            <dl>{{ item.address }}</dl>
+            <dl>{{ item.acf.address }}</dl>
             <dt>Working hours</dt>
-            <dl>{{ item.working_hours }}</dl>
+            <dl>{{ item.acf.working_hours }}</dl>
             <dt>Types of goods</dt>
             <dl>
-              <span v-for="goodType in item.types_of_goods"
+              <span v-for="goodType in item.acf.types_of_goods"
                 >{{ goodType }},
               </span>
             </dl>
@@ -95,7 +95,9 @@ export default {
   computed: {
     computedItems: function() {
       if (!this.filteredGroup) return this.items;
-      return this.items.filter(item => item.planet === this.filteredGroup);
+      return this.items.filter(item => {
+        return item.acf.planet === this.filteredGroup;
+      });
     }
   },
   props: ["items"],

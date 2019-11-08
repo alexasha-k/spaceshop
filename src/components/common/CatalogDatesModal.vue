@@ -1,6 +1,7 @@
 <template>
   <div class="catalog-dates">
     <div v-if="isProductAdded">
+      <div class="catalog-dates__label">Done!</div>
       Product {{ $store.state.variableProduct.name }} has been added to your
       cart!
     </div>
