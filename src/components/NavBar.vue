@@ -1,6 +1,10 @@
 <template>
   <div class="navbar">
-    <div class="navbar__toggle" v-on:click="onNavbarToggle">
+    <div
+      class="navbar__toggle btn-icon"
+      tabindex="0"
+      v-on:click="onNavbarToggle"
+    >
       <font-awesome-icon icon="bars" class="fa-2x"></font-awesome-icon>
     </div>
     <nav class="row no-gutters">

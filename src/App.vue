@@ -26,6 +26,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../node_modules/swiper/swiper.scss";
+
 #main {
   min-height: calc(100vh - 465px);
   position: relative;

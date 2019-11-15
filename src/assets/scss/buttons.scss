@@ -25,7 +25,8 @@
     opacity: 0.6;
   }
   &:focus {
-    box-shadow: 2px 2px 4px $black30;
+    box-shadow: 0 0 0 4px white, 0 0 0 7px $inv-color;
+    outline: none;
   }
   &:disabled {
     cursor: default;
@@ -62,6 +63,10 @@
   &:active {
     box-shadow: none;
     opacity: 0.6;
+  }
+  &:focus {
+    box-shadow: 0 0 0 4px white, 0 0 0 7px $inv-color;
+    outline: none;
   }
 }
 

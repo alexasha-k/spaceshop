@@ -11,7 +11,7 @@
         <base-logout-btn></base-logout-btn>
       </div>
     </div>
-    <router-link v-else to="/login">
+    <router-link v-else class="btn-icon" to="/login">
       <font-awesome-icon icon="sign-in-alt" class="fa-2x"></font-awesome-icon>
     </router-link>
   </div>

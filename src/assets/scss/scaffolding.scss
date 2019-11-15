@@ -5,6 +5,11 @@ body {
   color: $default;
 }
 
+a:focus {
+  outline: 2px solid $inv-color;
+  outline-offset: 4px;
+}
+
 .container-fluid {
   max-width: 1140px;
 }
