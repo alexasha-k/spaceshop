@@ -21,7 +21,7 @@
     "joi-browser": "^13.4.0",
     "jspdf": "^1.5.3",
     "lodash": "^4.17.19",
-    "swiper": "^5.2.0",
+    "swiper": "^6.5.1",
     "vue": "^2.6.10",
     "vue-joi-validation": "^1.0.9",
     "vue-router": "^3.0.3",
